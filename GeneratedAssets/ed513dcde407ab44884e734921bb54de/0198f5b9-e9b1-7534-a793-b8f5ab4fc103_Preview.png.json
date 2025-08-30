@@ -1,0 +1,11 @@
+{
+    "asset": "86dc3b1fefb40b74582178777c4aaa0c",
+    "fileName": "0198f5b9-e9b1-7534-a793-b8f5ab4fc103_Preview.png",
+    "prompt": "cloth, curtain",
+    "negativePrompt": "",
+    "model": "575ecf67-4425-4939-97b9-5e138b8ee234",
+    "modelName": "Unity Texture2D",
+    "customSeed": 436476844,
+    "w3CTraceId": "2f1c166168d433070d456cc362e14254",
+    "refinementMode": "Generation"
+}
