@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: df49195e51d47bf4083c2ac305eb4075
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 214335
+  packageName: Hotel Room Collection
+  packageVersion: 2.1
+  assetPath: Assets/HotelRoom-Mavi3D/Prefabs/URP/RoomStructure.prefab
+  uploadId: 553632

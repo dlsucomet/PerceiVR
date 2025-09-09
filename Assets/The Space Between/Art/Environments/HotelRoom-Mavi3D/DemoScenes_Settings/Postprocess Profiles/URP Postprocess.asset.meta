@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 57ef98492ff7a564795fadc1abd3c7fa
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 214335
+  packageName: Hotel Room Collection
+  packageVersion: 2.1
+  assetPath: Assets/HotelRoom-Mavi3D/DemoScenes_Settings/Postprocess Profiles/URP
+    Postprocess.asset
+  uploadId: 553632

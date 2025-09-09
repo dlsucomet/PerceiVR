@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c47488abe85a04940ac81f77313a86a4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 214335
+  packageName: Hotel Room Collection
+  packageVersion: 2.1
+  assetPath: Assets/HotelRoom-Mavi3D/DemoScenes_Settings/LightMaps_ReflectionProbes/URP/LightingData.asset
+  uploadId: 553632

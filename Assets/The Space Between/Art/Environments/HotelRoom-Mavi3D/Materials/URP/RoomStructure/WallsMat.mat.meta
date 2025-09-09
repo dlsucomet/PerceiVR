@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 83c3cd9b02f3c494eadf20f56c16f40a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 214335
+  packageName: Hotel Room Collection
+  packageVersion: 2.1
+  assetPath: Assets/HotelRoom-Mavi3D/Materials/URP/RoomStructure/WallsMat.mat
+  uploadId: 553632
