@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6958068975026901405
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
+  m_Name: Signal Emitter
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalEmitter
+  m_Time: 3.1666666666666665
+  m_Retroactive: 0
+  m_EmitOnce: 0
+  m_Asset: {fileID: 11400000, guid: fad3343574d6e5b4eb591e8b95a4545a, type: 2}
 --- !u!114 &-2719143329175793574
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,22 +95,6 @@ MonoBehaviour:
     m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: 0}
---- !u!114 &2688929001988013156
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
-  m_Name: Signal Emitter
-  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalEmitter
-  m_Time: 35.11666666666667
-  m_Retroactive: 0
-  m_EmitOnce: 0
-  m_Asset: {fileID: 11400000, guid: fad3343574d6e5b4eb591e8b95a4545a, type: 2}
 --- !u!114 &3269843827271939317
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,9 +134,9 @@ MonoBehaviour:
   m_Clips: []
   m_Markers:
     m_Objects:
-    - {fileID: 7317700571223638709}
-    - {fileID: 2688929001988013156}
---- !u!114 &7317700571223638709
+    - {fileID: 5842686652613567796}
+    - {fileID: -6958068975026901405}
+--- !u!114 &5842686652613567796
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,10 +148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalEmitter
-  m_Time: 0.7166666666666667
+  m_Time: 0
   m_Retroactive: 0
   m_EmitOnce: 0
-  m_Asset: {fileID: 11400000, guid: fad3343574d6e5b4eb591e8b95a4545a, type: 2}
+  m_Asset: {fileID: 11400000, guid: 4f3077c1b16bb2c4098d8c9b3dfbc92e, type: 2}
 --- !u!114 &7406911612499996562
 MonoBehaviour:
   m_ObjectHideFlags: 1
