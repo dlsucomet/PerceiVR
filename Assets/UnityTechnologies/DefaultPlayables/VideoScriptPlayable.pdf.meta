@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: fe111545f1755db409bc06a51d745d6b
+timeCreated: 1499765725
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95266
+  packageName: Default Playables
+  packageVersion: 1.9
+  assetPath: Assets/UnityTechnologies/DefaultPlayables/VideoScriptPlayable.pdf
+  uploadId: 567609

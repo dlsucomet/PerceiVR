@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: f28fb04ff66f85e40af453230799042c
+timeCreated: 1489416659
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95266
+  packageName: Default Playables
+  packageVersion: 1.9
+  assetPath: Assets/UnityTechnologies/DefaultPlayables/TransformTween/TransformTweenClip.cs
+  uploadId: 567609

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 64af3ceaf545d3341b852718827f2b64
+timeCreated: 1491318587
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 95266
+  packageName: Default Playables
+  packageVersion: 1.9
+  assetPath: Assets/UnityTechnologies/DefaultPlayables/TimeDilation/TimeDilationMixerBehaviour.cs
+  uploadId: 567609
