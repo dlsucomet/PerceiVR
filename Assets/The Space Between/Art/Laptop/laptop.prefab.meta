@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d95dfe9eeea7731489064565a2d8b306
+timeCreated: 1494495075
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 90315
+  packageName: Laptop Free
+  packageVersion: 1.0
+  assetPath: Assets/Laptop/laptop.prefab
+  uploadId: 179394
