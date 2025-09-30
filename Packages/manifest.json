@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "com.meta.xr.sdk.core": "78.0.0",
+    "com.meta.xr.sdk.interaction.ovr": "78.0.0",
+    "com.meta.xr.sdk.movement": "https://github.com/oculus-samples/Unity-Movement.git",
     "com.unity.2d.enhancers": "1.0.0",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.assistant": "1.0.0-pre.12",
@@ -19,7 +22,6 @@
     "com.unity.xr.hands": "1.5.0",
     "com.unity.xr.interaction.toolkit": "3.2.1",
     "com.unity.xr.management": "4.5.1",
-    "com.unity.xr.oculus": "4.5.2",
     "com.unity.xr.openxr": "1.15.1",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
