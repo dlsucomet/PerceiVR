@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9ca195a80cab0924c857fd181c9eabf5
+guid: 724c51f320c14bd4493fd9cd85b832d1
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,7 +31,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Sitting Talking
+      name: Sitting Talking Mirrored
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
@@ -43,15 +43,15 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
-      mirror: 0
+      mirror: 1
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
