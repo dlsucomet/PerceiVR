@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 54c38eb35b5848443a34928936331d6b
+timeCreated: 1453438629
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 90315
+  packageName: Laptop Free
+  packageVersion: 1.0
+  assetPath: Assets/Laptop/laptop.mat
+  uploadId: 179394
