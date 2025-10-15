@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 3048b63456d514c4c93dba0f700343dc
+timeCreated: 1494495389
+licenseType: Store
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 90315
+  packageName: Laptop Free
+  packageVersion: 1.0
+  assetPath: Assets/Laptop/StandardColorMask.shader
+  uploadId: 179394
