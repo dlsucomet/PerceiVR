@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SubtitleNameReplacer : MonoBehaviour
 {
@@ -13,12 +13,13 @@ public class SubtitleNameReplacer : MonoBehaviour
 
     private void ReplaceStudentNames()
     {
-        string savedName = PlayerInputManager.playerName;
+        // Retrieve player name from PlayerPrefs
+        string savedName = PlayerPrefs.GetString("PlayerName", "");
 
         if (string.IsNullOrEmpty(savedName))
         {
             Debug.LogWarning("⚠️ No player name found. Using default 'Student'.");
-            return;
+            savedName = "Student";
         }
 
         if (subtitlesToReplace == null || subtitlesToReplace.Count == 0)
