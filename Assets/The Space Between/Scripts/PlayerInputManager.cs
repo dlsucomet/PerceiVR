@@ -12,7 +12,7 @@ public class PlayerInputManager : MonoBehaviour
     public TMP_InputField nameInputField;
     public string nextSceneName = "Scene_1"; // Name of the next scene to load
 
-    private string playerName;
+    public static string playerName;
 
     void Start()
     {
