@@ -15,22 +15,27 @@ public class SubtitleManager : MonoBehaviour
     {
         subtitleContainer.SetActive(false);
     }
-    
+
     public void DisplayNextSubtitle()
     {
         if (currentIndex < subtitleSequence.Count)
         {
             Subtitle subtitle = subtitleSequence[currentIndex];
-            
+
             subtitleContainer.SetActive(true);
             subtitleText.text = subtitle.subtitleText;
 
-            if (speakerText != null) 
+            if (speakerText != null)
             {
-                if (!string.IsNullOrEmpty(subtitle.speaker))
+                // Use runtimeSpeakerName if available
+                string displayName = !string.IsNullOrEmpty(subtitle.runtimeSpeakerName)
+                    ? subtitle.runtimeSpeakerName
+                    : subtitle.speaker; // fallback
+
+                if (!string.IsNullOrEmpty(displayName))
                 {
                     speakerText.gameObject.SetActive(true);
-                    speakerText.text = subtitle.speaker;
+                    speakerText.text = displayName; // CHANGED
                 }
                 else
                 {
@@ -43,7 +48,7 @@ public class SubtitleManager : MonoBehaviour
                 CancelInvoke("HideSubtitle");
                 Invoke("HideSubtitle", subtitle.duration);
             }
-            
+
             currentIndex++;
         }
         else
@@ -57,7 +62,7 @@ public class SubtitleManager : MonoBehaviour
     {
         currentIndex = 0;
     }
-    
+
     public void HideSubtitle()
     {
         subtitleContainer.SetActive(false);
