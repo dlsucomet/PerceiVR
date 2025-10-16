@@ -7,4 +7,6 @@ public class Subtitle : ScriptableObject
     public string subtitleText;
     public string speaker;
     public float duration = 3f;
+
+    [HideInInspector] public string runtimeSpeakerName; // used for display in runtime
 }

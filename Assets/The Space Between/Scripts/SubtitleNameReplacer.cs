@@ -13,7 +13,6 @@ public class SubtitleNameReplacer : MonoBehaviour
 
     private void ReplaceStudentNames()
     {
-        // Retrieve player name from PlayerPrefs
         string savedName = PlayerPrefs.GetString("PlayerName", "");
 
         if (string.IsNullOrEmpty(savedName))
@@ -36,7 +35,7 @@ public class SubtitleNameReplacer : MonoBehaviour
 
             if (sub.speaker == "Student")
             {
-                sub.speaker = savedName;
+                sub.runtimeSpeakerName = savedName; // ✅ only change runtime variable
                 replacedCount++;
             }
         }
