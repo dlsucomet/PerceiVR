@@ -814,6 +814,7 @@ MonoBehaviour:
   - {fileID: -2719143329175793574}
   - {fileID: 5572735484205659987}
   - {fileID: 64749219792229536}
+  - {fileID: 3581483758251863036}
   - {fileID: 7501413323436568728}
   - {fileID: -4924606867426614016}
   - {fileID: 4791326420629565701}
@@ -2606,7 +2607,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 7501413323436568728}
+  m_Parent: {fileID: 11400000}
   m_Children: []
   m_Clips: []
   m_Markers:
@@ -3138,6 +3139,24 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 2
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
         time: 5.0833335
         value: 0
         inSlope: 0
@@ -3242,6 +3261,24 @@ AnimationClip:
     curve:
       serializedVersion: 2
       m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 2
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
         time: 5.0833335
         value: 0
@@ -3776,7 +3813,6 @@ MonoBehaviour:
   m_Children:
   - {fileID: 5384726579342713135}
   - {fileID: 3783913123604102701}
-  - {fileID: 3581483758251863036}
   m_Clips: []
   m_Markers:
     m_Objects: []
