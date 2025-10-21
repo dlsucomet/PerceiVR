@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a29775dda6db69445b50c20bd917b7c9
+guid: 7e8d0ece913e812458c30526c3aac879
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Having A Meeting, Female
+      name: Typing
       takeName: mixamo.com
       internalID: -203655887218126122
-      firstFrame: 1028
-      lastFrame: 1400
+      firstFrame: 92
+      lastFrame: 233
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a29775dda6db69445b50c20bd917b7c9
+guid: 4eb62986f102b2d418a00430b8dd5dad
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Having A Meeting, Female
+      name: Look Around
       takeName: mixamo.com
       internalID: -203655887218126122
-      firstFrame: 1028
-      lastFrame: 1400
+      firstFrame: 0
+      lastFrame: 400
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -44,7 +44,7 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
-      loopBlendOrientation: 1
+      loopBlendOrientation: 0
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
