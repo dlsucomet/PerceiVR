@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7e3a13b4228c2464a8b567297741b7e1
+guid: a972f28b5cb2b9d4980a023e60946070
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,7 +31,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Sitting
+      name: Sitting 1
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
@@ -51,7 +51,7 @@ ModelImporter:
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
-      mirror: 1
+      mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
