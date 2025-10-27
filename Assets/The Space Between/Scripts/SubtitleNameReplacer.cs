@@ -33,17 +33,25 @@ public class SubtitleNameReplacer : MonoBehaviour
         {
             if (sub == null) continue;
 
+            // Replace speaker name variations
             string speaker = sub.speaker.Trim();
-
             if (speaker == "Student" || speaker == "Student:" ||
                 speaker == "<User>" || speaker == "<User>:")
             {
-                // always add a colon at the end of the displayed name
-                sub.runtimeSpeakerName = $"{savedName}:";
+                // Ensure it always has a colon at the end
+                sub.speaker = savedName.EndsWith(":") ? savedName : savedName + ":";
                 replacedCount++;
+            }
+
+            // Replace name placeholders in subtitle text
+            if (!string.IsNullOrEmpty(sub.subtitleText))
+            {
+                string newText = sub.subtitleText
+                    .Replace("<User>", savedName);
+                sub.subtitleText = newText;
             }
         }
 
-        Debug.Log($"Replaced 'Student/<User>' with '{savedName}:' in {replacedCount} subtitles.");
+        Debug.Log($"Replaced 'Student'/'<User>' with '{savedName}' in {replacedCount} subtitles.");
     }
 }
