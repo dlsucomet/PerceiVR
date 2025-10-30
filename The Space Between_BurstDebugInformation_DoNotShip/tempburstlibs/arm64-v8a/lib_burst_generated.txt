@@ -12,7 +12,6 @@ Library: C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Temp\Burs
 --float-mode=Fast
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Temp\Burst
---debug=LineOnly
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.1f1/Editor/Data/PlaybackEngines/AndroidPlayer
 --decode-folder=C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Library\Burst
 --output=C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
@@ -31,7 +30,6 @@ Library: C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Temp\Burs
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Temp\Burst
---debug=LineOnly
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.1f1/Editor/Data/PlaybackEngines/AndroidPlayer
 --decode-folder=C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Library\Burst
 --output=C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
@@ -148,7 +146,6 @@ Library: C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Temp\Burs
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Temp\Burst
---debug=LineOnly
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.2.1f1/Editor/Data/PlaybackEngines/AndroidPlayer
 --decode-folder=C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Library\Burst
 --output=C:\Users\Chiara\Desktop\DLSU\4TH_YEAR\TERM 1\THS-ST2\PerceiVR\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
