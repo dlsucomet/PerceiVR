@@ -41,6 +41,10 @@ public class SubtitleNameReplacer : MonoBehaviour
                 // Ensure it always has a colon at the end
                 sub.speaker = savedName.EndsWith(":") ? savedName : savedName + ":";
                 replacedCount++;
+            } else if (speaker == "Professor") {
+                string newText = sub.subtitleText
+                    .Replace("<User>", savedName);
+                sub.subtitleText = newText;
             }
 
             // Replace name placeholders in subtitle text
