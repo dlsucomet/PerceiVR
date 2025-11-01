@@ -42,6 +42,19 @@ public class MainMenuManager : MonoBehaviour
     // --- Called when user confirms their name ---
     public void OnConfirmButtonClicked()
     {
+
+        string playerName = nameInputField.text.Trim();
+
+        if (string.IsNullOrEmpty(playerName))
+        {
+            Debug.LogWarning("Name field is empty!");
+            return;
+        }
+
+        PlayerPrefs.SetString("PlayerName", playerName);
+        PlayerPrefs.Save();
+
+
         fadeManager.FadeAndLoadScene(prologueSceneName);
     
     }
