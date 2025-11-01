@@ -2,41 +2,51 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class VRInputFieldHandler : MonoBehaviour, ISelectHandler
+public class VRInputFieldHandler : MonoBehaviour
 {
-    public TMP_InputField myInputField;
-    private TouchScreenKeyboard keyboard;
+    [Tooltip("Assign your XR Keyboard GameObject here.")]
+    public GameObject xrKeyboard;
 
-    void Start()
-    {
-        if (myInputField == null)
-            myInputField = GetComponent<TMP_InputField>();
-    }
+    private TMP_InputField inputField;
 
-    public void OnSelect(BaseEventData eventData)
+    private void Awake()
     {
-        keyboard = TouchScreenKeyboard.Open(
-            myInputField.text ?? "",
-            TouchScreenKeyboardType.Default,
-            false, false, false, false,
-            "Enter Text"
-        );
-    }
+        inputField = GetComponent<TMP_InputField>();
 
-    void Update()
-    {
-        if (keyboard != null)
+        if (inputField != null)
         {
-            if (keyboard.active)
-            {
-                myInputField.text = keyboard.text;
-            }
-
-            if (keyboard.status == TouchScreenKeyboard.Status.Done ||
-                keyboard.status == TouchScreenKeyboard.Status.Canceled)
-            {
-                keyboard = null;
-            }
+            // Subscribe to TMP events
+            inputField.onSelect.AddListener(OnInputSelected);
+            inputField.onDeselect.AddListener(OnInputDeselected);
+            inputField.onEndEdit.AddListener(OnInputEndEdit);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (inputField != null)
+        {
+            inputField.onSelect.RemoveListener(OnInputSelected);
+            inputField.onDeselect.RemoveListener(OnInputDeselected);
+            inputField.onEndEdit.RemoveListener(OnInputEndEdit);
+        }
+    }
+
+    private void OnInputSelected(string text)
+    {
+        if (xrKeyboard != null)
+            xrKeyboard.SetActive(true);
+    }
+
+    private void OnInputDeselected(string text)
+    {
+        // Don't close here — TMP triggers this even when clicking the keyboard
+    }
+
+    private void OnInputEndEdit(string text)
+    {
+        // Actually close the keyboard *only* when editing is finished
+        if (xrKeyboard != null)
+            xrKeyboard.SetActive(false);
     }
 }

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-
+using UnityEngine.UI;
+using System.Collections;
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Scene To Load")]
@@ -15,6 +16,13 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Player Input Field")]
     public TMP_InputField nameInputField;
+
+    [Header("Fade Transition")]
+    public Image blackPanel; // Assign BlackPanel Image here
+    public float fadeDuration = 1.5f;
+
+    public FadeManager fadeManager;
+
 
     void Start()
     {
@@ -34,20 +42,30 @@ public class MainMenuManager : MonoBehaviour
     // --- Called when user confirms their name ---
     public void OnConfirmButtonClicked()
     {
-        string playerName = nameInputField.text.Trim();
+        fadeManager.FadeAndLoadScene(prologueSceneName);
+    
+    }
 
-        if (string.IsNullOrEmpty(playerName))
+    private IEnumerator FadeAndLoadScene()
+    {
+        if (blackPanel != null)
         {
-            Debug.LogWarning("Name field is empty!");
-            return;
+            blackPanel.gameObject.SetActive(true);
+            Color color = blackPanel.color;
+            color.a = 0;
+            blackPanel.color = color;
+
+            float elapsed = 0;
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                color.a = Mathf.Clamp01(elapsed / fadeDuration);
+                blackPanel.color = color;
+                yield return null;
+            }
         }
 
-        PlayerPrefs.SetString("PlayerName", playerName);
-        PlayerPrefs.Save();
-
-        Debug.Log("✅ Player name saved: " + playerName);
-
-        SceneManager.LoadScene(prologueSceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(prologueSceneName);
     }
 
     public void ShowCredits()
