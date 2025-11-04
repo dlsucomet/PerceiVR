@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "com.meta.xr.sdk.core": "78.0.0",
-    "com.meta.xr.sdk.interaction.ovr": "78.0.0",
+    "com.meta.xr.sdk.interaction.ovr": "81.0.0",
+    "com.meta.xr.sdk.interaction.ovr.samples": "69.0.1",
     "com.meta.xr.sdk.movement": "https://github.com/oculus-samples/Unity-Movement.git",
+    "com.meta.xr.simulator": "81.0.0",
     "com.unity.2d.enhancers": "1.0.0",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.assistant": "1.0.0-pre.12",
