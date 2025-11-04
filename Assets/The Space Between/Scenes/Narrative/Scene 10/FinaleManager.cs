@@ -21,6 +21,17 @@ public class FinaleManager : MonoBehaviour
     public string nextSceneName = "[CHI] Scene_10_1";
 
     private bool isFading = false;
+    
+    private string finalUserText = "";
+
+    public void OnInputEndEdit()
+    {
+        if (inputField != null)
+        {
+            finalUserText = inputField.text;
+            Debug.Log("Input field editing finished. Text captured: '" + finalUserText + "'");
+        }
+    }
 
     public void OnConfirmPressed()
     {
@@ -32,8 +43,7 @@ public class FinaleManager : MonoBehaviour
     {
         isFading = true;
 
-        string userText = inputField != null ? inputField.text : "";
-        SaveUserMessage(userText);
+        SaveUserMessage(finalUserText);
 
         float elapsed = 0f;
         Color startColor = fadeImage.color;
@@ -48,18 +58,21 @@ public class FinaleManager : MonoBehaviour
 
         Debug.Log("Fade complete. Triggering ChangeScene signal...");
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
-
     }
 
     private void SaveUserMessage(string message)
     {
+
+        string currentName = PlayerPrefs.GetString("PlayerName", "Anonymous");
+        NoteData note = new NoteData { playerName = currentName, playerMessage = message };
+        string json = JsonUtility.ToJson(note, true);
         string folderPath = Path.Combine(Application.persistentDataPath, "UserNotes");
         if (!Directory.Exists(folderPath))
             Directory.CreateDirectory(folderPath);
-
-        string filePath = Path.Combine(folderPath, "UserMessage.txt");
-        File.WriteAllText(filePath, message);
-
-        Debug.Log($"User message saved to: {filePath}");
+        string timeStamp = System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+        string fileName = $"Note_{timeStamp}.txt";
+        string filePath = Path.Combine(folderPath, fileName);
+        File.WriteAllText(filePath, json);
+        Debug.Log($"Note saved for {currentName} to: {filePath}");
     }
 }

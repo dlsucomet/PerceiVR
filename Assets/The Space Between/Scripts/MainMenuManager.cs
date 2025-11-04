@@ -3,46 +3,49 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using System.IO;
+
 public class MainMenuManager : MonoBehaviour
 {
     [Header("Scene To Load")]
     public string prologueSceneName = "Scene_1";
 
     [Header("UI Canvases")]
-    public GameObject buttonCanvas;      // Start, Credits, Quit
+    public GameObject buttonCanvas;
     public GameObject creditsCanvas;
-    public GameObject playerInputCanvas; // Input field screen
-    public bool isCreditsOpen = false;
+    public GameObject playerInputCanvas;
+    public GameObject notesCanvas;
 
     [Header("Player Input Field")]
     public TMP_InputField nameInputField;
 
-    [Header("Fade Transition")]
-    public Image blackPanel; // Assign BlackPanel Image here
-    public float fadeDuration = 1.5f;
+    [Header("Notes UI")]
+    public RectTransform notesContentArea;
+    public GameObject noteEntryPrefab;
 
+    [Header("Fade Transition")]
+    public Image blackPanel;
+    public float fadeDuration = 1.5f;
     public FadeManager fadeManager;
 
+    private bool isCreditsOpen = false;
 
     void Start()
     {
-        buttonCanvas.SetActive(true);
+
         playerInputCanvas.SetActive(false);
         if (creditsCanvas != null) creditsCanvas.SetActive(false);
+        if (notesCanvas != null) notesCanvas.SetActive(false);
     }
 
-    // --- Called when user presses "Start" ---
     public void OnStartButtonClicked()
     {
-        Debug.Log("Start button clicked — showing player input.");
         buttonCanvas.SetActive(false);
         playerInputCanvas.SetActive(true);
     }
 
-    // --- Called when user confirms their name ---
     public void OnConfirmButtonClicked()
     {
-
         string playerName = nameInputField.text.Trim();
 
         if (string.IsNullOrEmpty(playerName))
@@ -54,31 +57,14 @@ public class MainMenuManager : MonoBehaviour
         PlayerPrefs.SetString("PlayerName", playerName);
         PlayerPrefs.Save();
 
-
-        fadeManager.FadeAndLoadScene(prologueSceneName);
-    
-    }
-
-    private IEnumerator FadeAndLoadScene()
-    {
-        if (blackPanel != null)
+        if (fadeManager != null)
         {
-            blackPanel.gameObject.SetActive(true);
-            Color color = blackPanel.color;
-            color.a = 0;
-            blackPanel.color = color;
-
-            float elapsed = 0;
-            while (elapsed < fadeDuration)
-            {
-                elapsed += Time.deltaTime;
-                color.a = Mathf.Clamp01(elapsed / fadeDuration);
-                blackPanel.color = color;
-                yield return null;
-            }
+            fadeManager.FadeAndLoadScene(prologueSceneName);
         }
-
-        UnityEngine.SceneManagement.SceneManager.LoadScene(prologueSceneName);
+        else
+        {
+            StartCoroutine(FadeAndLoadSceneCoroutine());
+        }
     }
 
     public void ShowCredits()
@@ -95,5 +81,89 @@ public class MainMenuManager : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    public void OnViewNotesClicked()
+    {
+        buttonCanvas.SetActive(false);
+        notesCanvas.SetActive(true);
+        LoadAndDisplayNotes();
+    }
+
+    public void OnCloseNotesClicked()
+    {
+        notesCanvas.SetActive(false);
+        buttonCanvas.SetActive(true);
+    }
+
+    private void LoadAndDisplayNotes()
+    {
+        foreach (Transform child in notesContentArea)
+        {
+            Destroy(child.gameObject);
+        }
+
+        string folderPath = Path.Combine(Application.persistentDataPath, "UserNotes");
+
+        if (Directory.Exists(folderPath))
+        {
+            string[] noteFiles = Directory.GetFiles(folderPath, "*.txt");
+
+            if (noteFiles.Length == 0)
+            {
+                InstantiateNote(new NoteData { playerName = "System", playerMessage = "You haven't written any notes yet." });
+            }
+            else
+            {
+                foreach (string filePath in noteFiles)
+                {
+                    string json = File.ReadAllText(filePath);
+                    NoteData noteData = JsonUtility.FromJson<NoteData>(json);
+                    InstantiateNote(noteData);
+                }
+            }
+        }
+        else
+        {
+            InstantiateNote(new NoteData { playerName = "System", playerMessage = "Play the game to write your first note!" });
+        }
+    }
+
+
+
+    private void InstantiateNote(NoteData data)
+    {
+        GameObject noteObject = Instantiate(noteEntryPrefab, notesContentArea);
+
+        TextMeshProUGUI playerNameText = noteObject.transform.Find("PlayerNameText")?.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI messageText = noteObject.transform.Find("MessageText")?.GetComponent<TextMeshProUGUI>();
+
+        if (playerNameText != null && messageText != null)
+        {
+            playerNameText.text = data.playerName;
+            messageText.text = data.playerMessage;
+        }
+        else
+        {
+            Debug.LogError("Note Entry Prefab is missing a child named 'PlayerNameText' or 'MessageText' with a TextMeshProUGUI component!");
+        }
+    }
+
+    private IEnumerator FadeAndLoadSceneCoroutine()
+    {
+        if (blackPanel != null)
+        {
+            blackPanel.gameObject.SetActive(true);
+            float elapsed = 0;
+            while (elapsed < fadeDuration)
+            {
+                elapsed += Time.deltaTime;
+                Color color = blackPanel.color;
+                color.a = Mathf.Clamp01(elapsed / fadeDuration);
+                blackPanel.color = color;
+                yield return null;
+            }
+        }
+        SceneManager.LoadScene(prologueSceneName);
     }
 }
