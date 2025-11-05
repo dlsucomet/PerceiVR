@@ -3742,7 +3742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
   m_Name: AudioPlayableAsset
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AudioPlayableAsset
-  m_Clip: {fileID: 8300000, guid: 149fadcf682a3ad4fb64fe1576fc3946, type: 3}
+  m_Clip: {fileID: 8300000, guid: e7b1ea9422e3f224390ece9d045d3cb4, type: 3}
   m_Loop: 0
   m_bufferingTime: 0.1
   m_ClipProperties:
