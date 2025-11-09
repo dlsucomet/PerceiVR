@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalEmitter
-  m_Time: 23.466666666666992
+  m_Time: 26
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 3f6c665c5550c7b498ffe59e46ddf800, type: 2}
@@ -863,7 +863,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 21.6
+        time: 24
         value: 0
         inSlope: 0
         outSlope: 0
@@ -872,7 +872,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 23.6
+        time: 26
         value: 1
         inSlope: 0
         outSlope: 0
@@ -911,7 +911,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 23.6
+    m_StopTime: 26
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -950,7 +950,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 21.6
+        time: 24
         value: 0
         inSlope: 0
         outSlope: 0
@@ -959,7 +959,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 23.6
+        time: 26
         value: 1
         inSlope: 0
         outSlope: 0
@@ -2401,10 +2401,10 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 6.103401360544218
     m_Asset: {fileID: 6977730598794849363}
-    m_Duration: 23.916666666666668
+    m_Duration: 26
     m_TimeScale: 1
     m_ParentTrack: {fileID: 8476372567842819310}
-    m_EaseInDuration: 0
+    m_EaseInDuration: 0.9883904457092285
     m_EaseOutDuration: 0.8315019607543945
     m_BlendInDuration: -1
     m_BlendOutDuration: -1

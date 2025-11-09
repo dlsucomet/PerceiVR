@@ -34,7 +34,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalEmitter
-  m_Time: 12.367404097411782
+  m_Time: 13
   m_Retroactive: 0
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 3f6c665c5550c7b498ffe59e46ddf800, type: 2}
@@ -636,7 +636,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
+  m_Parent: {fileID: 2410407471189532}
   m_Children: []
   m_Clips: []
   m_Markers:
@@ -699,7 +699,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 10.5
+        time: 11
         value: 0
         inSlope: 0
         outSlope: 0
@@ -708,7 +708,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 12.5
+        time: 13
         value: 1
         inSlope: 0
         outSlope: 0
@@ -747,7 +747,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 12.5
+    m_StopTime: 13
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -786,7 +786,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 10.5
+        time: 11
         value: 0
         inSlope: 0
         outSlope: 0
@@ -795,7 +795,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 12.5
+        time: 13
         value: 1
         inSlope: 0
         outSlope: 0
@@ -1000,15 +1000,39 @@ MonoBehaviour:
   - {fileID: -4153867657715641982}
   - {fileID: -4112584968907496831}
   - {fileID: 7530393033020738793}
-  - {fileID: -4532426540753127237}
-  - {fileID: 2344522388291066803}
-  - {fileID: 7565560264832937494}
+  - {fileID: 2410407471189532}
   m_FixedDuration: 0
   m_EditorSettings:
     m_Framerate: 60
     m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: 0}
+--- !u!114 &2410407471189532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0fc6f5187a81dc47999eefade6f0935, type: 3}
+  m_Name: MaleProtag
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.GroupTrack
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: 11400000}
+  m_Children:
+  - {fileID: -4532426540753127237}
+  - {fileID: 2344522388291066803}
+  - {fileID: 7565560264832937494}
+  m_Clips: []
+  m_Markers:
+    m_Objects: []
 --- !u!114 &2344522388291066803
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1027,7 +1051,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
+  m_Parent: {fileID: 2410407471189532}
   m_Children: []
   m_Clips: []
   m_Markers:
@@ -1466,7 +1490,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: 11400000}
+  m_Parent: {fileID: 2410407471189532}
   m_Children:
   - {fileID: -7068422434122116467}
   m_Clips:
@@ -1474,7 +1498,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -4714953496988010136}
-    m_Duration: 11.666666666666636
+    m_Duration: 17.266666666666683
     m_TimeScale: 1
     m_ParentTrack: {fileID: 7565560264832937494}
     m_EaseInDuration: 0
@@ -1584,11 +1608,11 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 6.103401360544218
     m_Asset: {fileID: 7204402577162388294}
-    m_Duration: 14.533333333333333
+    m_Duration: 13
     m_TimeScale: 1
     m_ParentTrack: {fileID: 7598165968650377052}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0
+    m_EaseInDuration: 0.9610891342163086
+    m_EaseOutDuration: 0.9966850280761719
     m_BlendInDuration: -1
     m_BlendOutDuration: -1
     m_MixInCurve:
