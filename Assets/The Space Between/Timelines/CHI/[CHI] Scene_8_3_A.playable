@@ -1961,7 +1961,7 @@ MonoBehaviour:
   m_Loop: 0
   m_bufferingTime: 0.1
   m_ClipProperties:
-    volume: 1
+    volume: 0.2
 --- !u!114 &-4650462643713813212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3792,13 +3792,13 @@ MonoBehaviour:
   m_Clips:
   - m_Version: 1
     m_Start: 0
-    m_ClipIn: 0
-    m_Asset: {fileID: 6874774201553505866}
+    m_ClipIn: 6.1233251656095185
+    m_Asset: {fileID: 8018149387113957555}
     m_Duration: 23.239991832276186
     m_TimeScale: 1
     m_ParentTrack: {fileID: 1530364662101190820}
-    m_EaseInDuration: 0
-    m_EaseOutDuration: 0.9536542892456055
+    m_EaseInDuration: 2.2130956649780273
+    m_EaseOutDuration: 1.8582992553710938
     m_BlendInDuration: -1
     m_BlendOutDuration: -1
     m_MixInCurve:
@@ -3858,7 +3858,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: quiet-classroom
+    m_DisplayName: exam room
   m_Markers:
     m_Objects: []
   m_TrackProperties:
@@ -5598,23 +5598,6 @@ MonoBehaviour:
   m_Loop: 0
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &6874774201553505866
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
-  m_Name: AudioPlayableAsset
-  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AudioPlayableAsset
-  m_Clip: {fileID: 8300000, guid: 45605bb240b14f84fbd9a5af7b9d7d60, type: 3}
-  m_Loop: 0
-  m_bufferingTime: 0.1
-  m_ClipProperties:
-    volume: 1
 --- !u!114 &6958925487159976901
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6537,6 +6520,23 @@ MonoBehaviour:
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
+--- !u!114 &8018149387113957555
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
+  m_Name: AudioPlayableAsset(Clone)(Clone)
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AudioPlayableAsset
+  m_Clip: {fileID: 8300000, guid: 8f57dd7142fd61f4bae208a8c63748fe, type: 3}
+  m_Loop: 0
+  m_bufferingTime: 0.1
+  m_ClipProperties:
+    volume: 0.1
 --- !u!114 &8349928134662500745
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6565,7 +6565,7 @@ MonoBehaviour:
     m_Duration: 13.3
     m_TimeScale: 1
     m_ParentTrack: {fileID: 8349928134662500745}
-    m_EaseInDuration: 0
+    m_EaseInDuration: 2.208436965942383
     m_EaseOutDuration: 3.729325771331787
     m_BlendInDuration: -1
     m_BlendOutDuration: -1
