@@ -27,7 +27,6 @@ public class SubtitleManager : MonoBehaviour
 
             if (speakerText != null)
             {
-                // Use runtimeSpeakerName if available
                 string displayName = !string.IsNullOrEmpty(subtitle.runtimeSpeakerName)
                     ? subtitle.runtimeSpeakerName
                     : subtitle.speaker; // fallback
@@ -65,6 +64,11 @@ public class SubtitleManager : MonoBehaviour
 
     public void HideSubtitle()
     {
+        if (NarrativeManager.Instance != null && NarrativeManager.Instance.IsWaiting())
+        {
+            return; 
+        }
+
         subtitleContainer.SetActive(false);
     }
 }
