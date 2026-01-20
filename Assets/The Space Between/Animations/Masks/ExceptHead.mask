@@ -6,8 +6,8 @@ AvatarMask:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Head
-  m_Mask: 00000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_Name: ExceptHead
+  m_Mask: 01000000010000000000000001000000010000000100000001000000010000000100000001000000010000000100000001000000
   m_Elements:
   - m_Path: 
     m_Weight: 1
@@ -48,19 +48,19 @@ AvatarMask:
   - m_Path: Pelvis
     m_Weight: 1
   - m_Path: Pelvis/spine_01
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_l
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_l/Upperarm_l
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_l/Upperarm_l/lowerarm_l
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_l/Upperarm_l/lowerarm_l/hand_l
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_l/Upperarm_l/lowerarm_l/hand_l/index_01_l
     m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_l/Upperarm_l/lowerarm_l/hand_l/index_01_l/index_02_l
@@ -92,13 +92,13 @@ AvatarMask:
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_l/Upperarm_l/lowerarm_l/hand_l/thumb_01_l/thumb_02_l/thumb_03_l
     m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_r
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_r/Upperarm_r
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_r/Upperarm_r/lowerarm_r
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_r/Upperarm_r/lowerarm_r/hand_r
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_r/Upperarm_r/lowerarm_r/hand_r/index_01_r
     m_Weight: 1
   - m_Path: Pelvis/spine_01/Spine_02/Spine_03/Clavicle_r/Upperarm_r/lowerarm_r/hand_r/index_01_r/index_02_r
