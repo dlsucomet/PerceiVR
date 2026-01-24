@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 public class DecisionController : MonoBehaviour
 {
     [Header("Buttons")]
@@ -12,46 +13,64 @@ public class DecisionController : MonoBehaviour
     [Header("Visual Settings")]
     public Color selectedColor = Color.white;
     public Color dimmedColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+    private Color choiceAOriginalColor;
+    private Color choiceBOriginalColor;
 
     [Header("Timing")]
     public float confirmDelay = 0.4f;
-
-    [Header("Fade")]
-    public Animator blackPanelAnimator;
-    public float fadeDuration = 0.5f;
+    public float fadeOutDuration = 0.3f;
 
     [Header("Audio")]
     public AudioSource sfxSource;
     public AudioClip clickSFX;
 
+    private CanvasGroup canvasGroup;
     private bool decisionMade = false;
-    private string targetScene;
+
+    void Awake()
+    {
+        canvasGroup = GetComponent<CanvasGroup>();
+
+        choiceAOriginalColor = choiceAButton.image.color;
+        choiceBOriginalColor = choiceBButton.image.color;
+    }
+
 
     public void ChooseA(string sceneName)
     {
         if (decisionMade) return;
-        targetScene = sceneName;
-        StartCoroutine(HandleDecision(choiceAButton, choiceBButton));
+        StartCoroutine(HandleDecision(choiceAButton, choiceBButton, sceneName));
     }
 
     public void ChooseB(string sceneName)
     {
         if (decisionMade) return;
-        targetScene = sceneName;
-        StartCoroutine(HandleDecision(choiceBButton, choiceAButton));
+        StartCoroutine(HandleDecision(choiceBButton, choiceAButton, sceneName));
     }
 
-    private IEnumerator HandleDecision(Button selected, Button other)
+    public void ResetDecisionUI()
+    {
+        decisionMade = false;
+        canvasGroup.alpha = 1f;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+
+        choiceAButton.image.color = choiceAOriginalColor;
+        choiceBButton.image.color = choiceBOriginalColor;
+    }
+
+
+    private IEnumerator HandleDecision(Button selected, Button other, string sceneName)
     {
         decisionMade = true;
 
-        // Lock visuals
-        selected.image.color = selectedColor;
-        other.image.color = dimmedColor;
+        // Disable input
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
 
-        // Disable buttons
-        choiceAButton.interactable = false;
-        choiceBButton.interactable = false;
+        // Visual lock-in
+        selected.image.color = choiceAOriginalColor * 1.1f;
+        other.image.color = dimmedColor;
 
         // Sound
         if (sfxSource && clickSFX)
@@ -60,14 +79,18 @@ public class DecisionController : MonoBehaviour
         // Micro-delay
         yield return new WaitForSeconds(confirmDelay);
 
-        // Trigger fade
-        if (blackPanelAnimator)
-            blackPanelAnimator.ResetTrigger("FadeIn");
-            blackPanelAnimator.SetTrigger("FadeOut");
+        // Fade out
+        float t = 0f;
+        while (t < fadeOutDuration)
+        {
+            t += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, t / fadeOutDuration);
+            yield return null;
+        }
 
-        // Wait for fade animation
-        yield return new WaitForSeconds(fadeDuration);
+        canvasGroup.alpha = 0f;
 
-        SceneManager.LoadScene(targetScene);
+        // Load scene
+        SceneManager.LoadScene(sceneName);
     }
 }
