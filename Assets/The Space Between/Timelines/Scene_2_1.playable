@@ -25,7 +25,7 @@ MonoBehaviour:
     m_Start: 29.016666666666666
     m_ClipIn: 0
     m_Asset: {fileID: 5036240724659280025}
-    m_Duration: 10.968
+    m_Duration: 21.936000000000007
     m_TimeScale: 1
     m_ParentTrack: {fileID: -9113876285831073279}
     m_EaseInDuration: 0
@@ -3075,7 +3075,7 @@ MonoBehaviour:
   m_Name: AudioPlayableAsset(Clone)(Clone)(Clone)(Clone)
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AudioPlayableAsset
   m_Clip: {fileID: 8300000, guid: 0306c6aa33f18964fa71653cc1b7c5fe, type: 3}
-  m_Loop: 0
+  m_Loop: 1
   m_bufferingTime: 0.1
   m_ClipProperties:
     volume: 1
