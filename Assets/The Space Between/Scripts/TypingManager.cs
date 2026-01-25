@@ -14,6 +14,23 @@ public class TypingManager : MonoBehaviour
 
     public InteractionToggle interactionToggle;
 
+    void Start()
+    {
+        if (videoPlayer == null || typingClip == null) return;
+
+        videoPlayer.clip = typingClip;
+        videoPlayer.playOnAwake = false;
+
+        videoPlayer.Prepare();
+        videoPlayer.prepareCompleted += OnPrepared;
+    }
+
+    void OnPrepared(VideoPlayer vp)
+    {
+        vp.Play();
+        vp.Pause();
+    }
+
     void OnEnable()
     {
         if (videoPlayer != null)
@@ -45,6 +62,8 @@ public class TypingManager : MonoBehaviour
 
     void OnClipFinished(VideoPlayer vp)
     {
+        vp.Pause();
+
         // Hide prompt/progress and stop interaction
         holdUI.Disarm();
         keyboardGlow?.DisableGlow();
