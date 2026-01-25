@@ -27,6 +27,7 @@ public class DecisionController : MonoBehaviour
     private CanvasGroup canvasGroup;
     private bool decisionMade = false;
 
+
     void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -80,21 +81,27 @@ public class DecisionController : MonoBehaviour
         if (sfxSource && clickSFX)
             sfxSource.PlayOneShot(clickSFX);
 
-        // micro-delay
+        // decision pause 
         yield return new WaitForSeconds(confirmDelay);
 
-        // fade out
+        // smooth fade
         float t = 0f;
+        float startAlpha = canvasGroup.alpha;
+
         while (t < fadeOutDuration)
         {
             t += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(1f, 0f, t / fadeOutDuration);
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, t / fadeOutDuration);
             yield return null;
         }
 
         canvasGroup.alpha = 0f;
 
-        // Load scene
+        // cinematic micro-pause before scene load
+        yield return new WaitForSeconds(0.4f);
+
+        // delayed scene load
         SceneManager.LoadScene(sceneName);
     }
+
 }
