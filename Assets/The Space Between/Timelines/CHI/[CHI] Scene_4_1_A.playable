@@ -479,6 +479,23 @@ MonoBehaviour:
   m_OpenClipOffsetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_ApplyOffsets: 0
+--- !u!114 &-8790471724428195318
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
+  m_Name: AudioPlayableAsset
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AudioPlayableAsset
+  m_Clip: {fileID: 8300000, guid: 29241a8993f913e4f8caa0139ce0fd8c, type: 3}
+  m_Loop: 0
+  m_bufferingTime: 0.1
+  m_ClipProperties:
+    volume: 1
 --- !u!114 &-8758953451137539780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1279,23 +1296,6 @@ MonoBehaviour:
   m_Loop: 1
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!114 &-7516622309017180200
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
-  m_Name: AudioPlayableAsset(Clone)(Clone)
-  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AudioPlayableAsset
-  m_Clip: {fileID: 8300000, guid: 82e08072307e6e64ea440db68d4e4cb4, type: 3}
-  m_Loop: 0
-  m_bufferingTime: 0.1
-  m_ClipProperties:
-    volume: 1
 --- !u!114 &-7473075569039841639
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5112,23 +5112,6 @@ MonoBehaviour:
     volume: 1
     stereoPan: 0
     spatialBlend: 0
---- !u!114 &-5114220171355229916
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
-  m_Name: AudioPlayableAsset(Clone)
-  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AudioPlayableAsset
-  m_Clip: {fileID: 8300000, guid: 82e08072307e6e64ea440db68d4e4cb4, type: 3}
-  m_Loop: 0
-  m_bufferingTime: 0.1
-  m_ClipProperties:
-    volume: 1
 --- !u!114 &-5086201511607692439
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6510,9 +6493,9 @@ MonoBehaviour:
     m_DisplayName: Scene 4_1_A
   - m_Version: 1
     m_Start: 67.6166999999999
-    m_ClipIn: 20.049933333333307
-    m_Asset: {fileID: -5114220171355229916}
-    m_Duration: 1.8999333333334505
+    m_ClipIn: 1.7832666666666555
+    m_Asset: {fileID: -8790471724428195318}
+    m_Duration: 1.6910190476190587
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4431871794060636956}
     m_EaseInDuration: 0
@@ -6576,12 +6559,12 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: Scene 4_1_A
+    m_DisplayName: groupmate_4
   - m_Version: 1
     m_Start: 60.216733333333345
-    m_ClipIn: 16.33333333333332
-    m_Asset: {fileID: -7516622309017180200}
-    m_Duration: 2.183333333333337
+    m_ClipIn: 0
+    m_Asset: {fileID: -2230678580768203397}
+    m_Duration: 1.7832666666666555
     m_TimeScale: 1
     m_ParentTrack: {fileID: -4431871794060636956}
     m_EaseInDuration: 0
@@ -6645,7 +6628,7 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: Scene 4_1_A
+    m_DisplayName: groupmate_4
   m_Markers:
     m_Objects: []
   m_TrackProperties:
@@ -8396,6 +8379,23 @@ MonoBehaviour:
   m_Loop: 0
   m_Version: 1
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+--- !u!114 &-2230678580768203397
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f10dd60657c6004587f237a7e90f8e4, type: 3}
+  m_Name: AudioPlayableAsset(Clone)
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AudioPlayableAsset
+  m_Clip: {fileID: 8300000, guid: 29241a8993f913e4f8caa0139ce0fd8c, type: 3}
+  m_Loop: 0
+  m_bufferingTime: 0.1
+  m_ClipProperties:
+    volume: 1
 --- !u!114 &-2219333844165619340
 MonoBehaviour:
   m_ObjectHideFlags: 1
