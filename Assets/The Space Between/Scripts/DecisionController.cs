@@ -11,14 +11,14 @@ public class DecisionController : MonoBehaviour
     public Button choiceBButton;
 
     [Header("Visual Settings")]
-    public Color selectedColor = Color.white;
+    public Color selectedColor = new Color(0.2f, 0.8f, 0.3f, 1f); // green
     public Color dimmedColor = new Color(0.5f, 0.5f, 0.5f, 1f);
     private Color choiceAOriginalColor;
     private Color choiceBOriginalColor;
 
     [Header("Timing")]
-    public float confirmDelay = 0.4f;
-    public float fadeOutDuration = 0.3f;
+    public float confirmDelay = 0.8f;
+    public float fadeOutDuration = 0.5f;
 
     [Header("Audio")]
     public AudioSource sfxSource;
@@ -48,38 +48,42 @@ public class DecisionController : MonoBehaviour
         StartCoroutine(HandleDecision(choiceBButton, choiceAButton, sceneName));
     }
 
-    public void ResetDecisionUI()
-    {
-        decisionMade = false;
-        canvasGroup.alpha = 1f;
-        canvasGroup.interactable = true;
-        canvasGroup.blocksRaycasts = true;
+    // public void ResetDecisionUI()
+    // {
+    //     decisionMade = false;
+    //     canvasGroup.alpha = 1f;
+    //     canvasGroup.interactable = true;
+    //     canvasGroup.blocksRaycasts = true;
 
-        choiceAButton.image.color = choiceAOriginalColor;
-        choiceBButton.image.color = choiceBOriginalColor;
-    }
+    //     choiceAButton.image.color = choiceAOriginalColor;
+    //     choiceBButton.image.color = choiceBOriginalColor;
+    //     choiceAButton.transform.localScale = Vector3.one;
+    //     choiceBButton.transform.localScale = Vector3.one;
+        
+    // }
 
 
     private IEnumerator HandleDecision(Button selected, Button other, string sceneName)
     {
         decisionMade = true;
 
-        // Disable input
+        // disable input
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 
-        // Visual lock-in
-        selected.image.color = choiceAOriginalColor * 1.1f;
+        // visual lock-in
+        selected.image.color = selectedColor;
+        selected.transform.localScale = Vector3.one * 1.05f;
         other.image.color = dimmedColor;
 
-        // Sound
+        // sound
         if (sfxSource && clickSFX)
             sfxSource.PlayOneShot(clickSFX);
 
-        // Micro-delay
+        // micro-delay
         yield return new WaitForSeconds(confirmDelay);
 
-        // Fade out
+        // fade out
         float t = 0f;
         while (t < fadeOutDuration)
         {
