@@ -17,8 +17,8 @@ public class DecisionController : MonoBehaviour
     private Color choiceBOriginalColor;
 
     [Header("Timing")]
-    public float confirmDelay = 0.8f;
-    public float fadeOutDuration = 0.5f;
+    public float confirmDelay = 0.6f;
+    public float fadeOutDuration = 0.4f;
 
     [Header("Audio")]
     public AudioSource sfxSource;
