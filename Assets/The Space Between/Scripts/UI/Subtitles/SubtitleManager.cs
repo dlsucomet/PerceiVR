@@ -13,6 +13,17 @@ public class SubtitleManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log($"SubtitleManager Start() on: {gameObject.name}", this);
+
+        if (subtitleContainer == null)
+        {
+            Debug.LogError(
+                $"SubtitleManager ERROR on {gameObject.name}: subtitleContainer is NOT assigned",
+                this
+            );
+            return;
+        }
+
         subtitleContainer.SetActive(false);
     }
 
