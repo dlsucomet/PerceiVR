@@ -17,8 +17,8 @@ public class DecisionController : MonoBehaviour
     private Color choiceBOriginalColor;
 
     [Header("Timing")]
-    public float confirmDelay = 0.6f;
-    public float fadeOutDuration = 0.4f;
+    public float confirmDelay = 0.8f;
+    public float fadeOutDuration = 0.6f;
 
     [Header("Audio")]
     public AudioSource sfxSource;
@@ -88,7 +88,7 @@ public class DecisionController : MonoBehaviour
         screenFader.alpha = 1f;
 
         // micro-pause before loading scene
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.6f);
 
         // load next scene
         SceneManager.LoadScene(sceneName);
