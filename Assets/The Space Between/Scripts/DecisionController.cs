@@ -24,6 +24,10 @@ public class DecisionController : MonoBehaviour
     public AudioSource sfxSource;
     public AudioClip clickSFX;
 
+    [Header("Screen Fade")]
+    public CanvasGroup screenFader;
+
+
     private CanvasGroup canvasGroup;
     private bool decisionMade = false;
 
@@ -49,30 +53,15 @@ public class DecisionController : MonoBehaviour
         StartCoroutine(HandleDecision(choiceBButton, choiceAButton, sceneName));
     }
 
-    // public void ResetDecisionUI()
-    // {
-    //     decisionMade = false;
-    //     canvasGroup.alpha = 1f;
-    //     canvasGroup.interactable = true;
-    //     canvasGroup.blocksRaycasts = true;
-
-    //     choiceAButton.image.color = choiceAOriginalColor;
-    //     choiceBButton.image.color = choiceBOriginalColor;
-    //     choiceAButton.transform.localScale = Vector3.one;
-    //     choiceBButton.transform.localScale = Vector3.one;
-        
-    // }
-
-
     private IEnumerator HandleDecision(Button selected, Button other, string sceneName)
     {
         decisionMade = true;
 
-        // disable input
+        // disable decision UI
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 
-        // visual lock-in
+        // lock in visuals
         selected.image.color = selectedColor;
         selected.transform.localScale = Vector3.one * 1.05f;
         other.image.color = dimmedColor;
@@ -81,26 +70,27 @@ public class DecisionController : MonoBehaviour
         if (sfxSource && clickSFX)
             sfxSource.PlayOneShot(clickSFX);
 
-        // decision pause 
+        // short decision pause
         yield return new WaitForSeconds(confirmDelay);
 
-        // smooth fade
+        // fade in full-screen black
         float t = 0f;
-        float startAlpha = canvasGroup.alpha;
+        float fadeDuration = fadeOutDuration;
+        screenFader.gameObject.SetActive(true);
+        screenFader.alpha = 0f;
 
-        while (t < fadeOutDuration)
+        while (t < fadeDuration)
         {
             t += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, 0f, t / fadeOutDuration);
+            screenFader.alpha = Mathf.Lerp(0f, 1f, t / fadeDuration);
             yield return null;
         }
+        screenFader.alpha = 1f;
 
-        canvasGroup.alpha = 0f;
+        // micro-pause before loading scene
+        yield return new WaitForSeconds(0.2f);
 
-        // cinematic micro-pause before scene load
-        yield return new WaitForSeconds(0.4f);
-
-        // delayed scene load
+        // load next scene
         SceneManager.LoadScene(sceneName);
     }
 
