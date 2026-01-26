@@ -3,55 +3,57 @@ using UnityEngine;
 
 public class SubtitleNameReplacer : MonoBehaviour
 {
-    [Header("Assign your subtitle assets here")]
-    public List<Subtitle> subtitlesToReplace;
+    [Header("Subtitle Assets")]
+    public List<Subtitle> subtitles;
+
+    private Dictionary<Subtitle, string> originalSpeakerCache = new();
+    private Dictionary<Subtitle, string> originalTextCache = new();
 
     void Awake()
     {
-        ReplaceStudentNames();
+        CacheOriginalData();
+        RefreshSubtitles();
     }
 
-    private void ReplaceStudentNames()
+    public void RefreshSubtitles()
     {
-        string savedName = PlayerPrefs.GetString("PlayerName", "");
+        string playerName = PlayerPrefs.GetString("PlayerName", "Student");
 
-        if (string.IsNullOrEmpty(savedName))
-        {
-            Debug.LogWarning("No player name found. Using default 'Student'.");
-            savedName = "Student";
-        }
-
-        if (subtitlesToReplace == null || subtitlesToReplace.Count == 0)
-        {
-            Debug.LogWarning("No subtitles assigned to SubtitleNameReplacer.");
-            return;
-        }
-
-        int replacedCount = 0;
-
-        foreach (Subtitle sub in subtitlesToReplace)
+        foreach (Subtitle sub in subtitles)
         {
             if (sub == null) continue;
 
-            // Replace speaker name variations
-            string speaker = sub.speaker.Trim();
-            if (speaker == "Student" || speaker == "Student:" ||
-                speaker == "<User>" || speaker == "<User>:")
+            // restore originals first (undo-safe)
+            sub.speaker = originalSpeakerCache[sub];
+            sub.subtitleText = originalTextCache[sub];
+
+            // replace speaker
+            if (sub.speaker == "Student" || sub.speaker == "Student:" ||
+                sub.speaker == "<User>" || sub.speaker == "<User>:")
             {
-                // Ensure it always has a colon at the end
-                sub.speaker = savedName.EndsWith(":") ? savedName : savedName + ":";
-                replacedCount++;
+                sub.speaker = playerName + ":";
             }
 
-            // Replace name placeholders in subtitle text
-            if (!string.IsNullOrEmpty(sub.subtitleText))
-            {
-                string newText = sub.subtitleText
-                    .Replace("<User>", savedName);
-                sub.subtitleText = newText;
-            }
+            // replace text placeholders
+            sub.subtitleText =
+                sub.subtitleText.Replace("<User>", playerName);
         }
+    }
 
-        Debug.Log($"Replaced 'Student'/'<User>' with '{savedName}' in {replacedCount} subtitles.");
+    void CacheOriginalData()
+    {
+        originalSpeakerCache.Clear();
+        originalTextCache.Clear();
+
+        foreach (Subtitle sub in subtitles)
+        {
+            if (sub == null) continue;
+
+            if (!originalSpeakerCache.ContainsKey(sub))
+                originalSpeakerCache[sub] = sub.speaker;
+
+            if (!originalTextCache.ContainsKey(sub))
+                originalTextCache[sub] = sub.subtitleText;
+        }
     }
 }
