@@ -19,18 +19,49 @@ public class HoldToPlay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public event Action TypingStarted;
     public event Action TypingStopped;
 
+    bool requireRelease = false;
+    bool suppressHoldPrompt = false;
+
+    public bool IsReleaseRequired => requireRelease;
     public bool IsHoldingTyping => holding;
 
-    bool requireRelease = false;
+    bool useSegmentRange = false;
+    double segmentStart = 0.0;
+    double segmentEnd = 0.0;
 
     void Start()
     {
         if (holdPrompt) holdPrompt.SetActive(false);
-        if (progressRing)
+        if (progressRing) progressRing.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (!armed || progressRing == null || videoPlayer == null)
+            return;
+
+        if (useSegmentRange)
         {
-            progressRing.fillAmount = 0f;
-            progressRing.gameObject.SetActive(false);
+            double len = segmentEnd - segmentStart;
+            if (len > 0.0001)
+            {
+                progressRing.fillAmount =
+                    Mathf.Clamp01((float)((videoPlayer.time - segmentStart) / len));
+            }
         }
+        else
+        {
+            if (videoPlayer.length > 0.0001)
+                progressRing.fillAmount =
+                    (float)(videoPlayer.time / videoPlayer.length);
+        }
+    }
+
+    public void SetHoldPromptSuppressed(bool suppressed)
+    {
+        suppressHoldPrompt = suppressed;
+        if (holdPrompt)
+            holdPrompt.SetActive(armed && !holding && !suppressHoldPrompt);
     }
 
     public void Arm(VideoPlayer vp)
@@ -38,8 +69,31 @@ public class HoldToPlay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         videoPlayer = vp;
         armed = true;
         holding = false;
+        requireRelease = false;
 
-        if (holdPrompt) holdPrompt.SetActive(true);
+        if (holdPrompt)
+            holdPrompt.SetActive(!suppressHoldPrompt);
+        if (progressRing)
+        {
+            progressRing.fillAmount = 0f;
+            progressRing.gameObject.SetActive(true);
+        }
+    }
+
+    public void Arm(VideoPlayer vp, double startTime, double endTime)
+    {
+        videoPlayer = vp;
+        armed = true;
+        holding = false;
+        requireRelease = false;
+
+        useSegmentRange = true;
+        segmentStart = startTime;
+        segmentEnd = Mathf.Max((float)startTime + 0.0001f, (float)endTime);
+
+        if (holdPrompt)
+            holdPrompt.SetActive(!suppressHoldPrompt);
+
         if (progressRing)
         {
             progressRing.fillAmount = 0f;
@@ -53,8 +107,8 @@ public class HoldToPlay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         holding = false;
         requireRelease = false;
 
-        if (videoPlayer != null) videoPlayer.Pause();
-        if (typingAudio != null) typingAudio.Stop();
+        if (videoPlayer) videoPlayer.Pause();
+        if (typingAudio) typingAudio.Stop();
 
         if (holdPrompt) holdPrompt.SetActive(false);
         if (progressRing) progressRing.gameObject.SetActive(false);
@@ -62,78 +116,33 @@ public class HoldToPlay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         videoPlayer = null;
     }
 
-    //public void OnPointerDown(PointerEventData eventData)
-    //{
-    //    Debug.Log("HoldToPlay: PointerDown");
-
-    //    if (!armed || videoPlayer == null) return;
-
-    //    holding = true;
-    //    if (holdPrompt) holdPrompt.SetActive(false);
-
-    //    videoPlayer.Play();
-
-    //    if (typingAudio && !typingAudio.isPlaying)
-    //    {
-    //        typingAudio.Play();
-    //    }
-    //}
-
-    //public void OnPointerUp(PointerEventData eventData)
-    //{
-    //    Debug.Log("HoldToPlay: PointerUp");
-
-    //    if (!armed || videoPlayer == null) return;
-
-    //    holding = false;
-
-    //    videoPlayer.Pause();
-
-    //    if (typingAudio && typingAudio.isPlaying)
-    //    {
-    //        typingAudio.Pause();
-    //    }
-
-    //    if (holdPrompt) holdPrompt.SetActive(true);
-    //}
-
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!armed || videoPlayer == null) return;
-
-        if (requireRelease) return;
+        if (!armed || requireRelease) return;
 
         holding = true;
         if (holdPrompt) holdPrompt.SetActive(false);
 
         videoPlayer.Play();
-        if (typingAudio && !typingAudio.isPlaying) typingAudio.Play();
+        typingAudio?.Play();
 
         TypingStarted?.Invoke();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!armed || videoPlayer == null) return;
-
         holding = false;
 
         videoPlayer.Pause();
-        if (typingAudio && typingAudio.isPlaying) typingAudio.Pause();
+        typingAudio?.Pause();
 
-        if (holdPrompt) holdPrompt.SetActive(true);
+        if (requireRelease)
+            requireRelease = false;
 
-        if (requireRelease) requireRelease = false;
+        if (holdPrompt)
+            holdPrompt.SetActive(!suppressHoldPrompt);
 
         TypingStopped?.Invoke();
-    }
-
-    void Update()
-    {
-        if (!armed || progressRing == null || videoPlayer == null) return;
-        if (videoPlayer.length <= 0.0001) return;
-
-        progressRing.fillAmount = (float)(videoPlayer.time / videoPlayer.length);
     }
 
     public void ForceBreak()
@@ -141,10 +150,10 @@ public class HoldToPlay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         holding = false;
         requireRelease = true;
 
-        if (videoPlayer != null) videoPlayer.Pause();
-        if (typingAudio != null) typingAudio.Pause();
+        videoPlayer.Pause();
+        typingAudio?.Pause();
 
-        if (holdPrompt) holdPrompt.SetActive(true);
+        if (holdPrompt)
+            holdPrompt.SetActive(!suppressHoldPrompt);
     }
-
 }

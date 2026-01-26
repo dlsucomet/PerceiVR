@@ -6,33 +6,42 @@ using UnityEngine.Rendering.Universal;
 public class AnxietyTypingController : MonoBehaviour
 {
     [Header("Wiring")]
-    public TypingManager typingManager;
     public HoldToPlay holdUI;
     public InteractionToggle interactionToggle;
 
-    [Header("Break UI")]
+    [Header("Prompt")]
     public GameObject anxiousPrompt;
 
     [Header("Timing")]
     public float maxContinuousTypingSeconds = 8f;
     public float forcedBreakSeconds = 3f;
-    public float graceToClearSeconds = 1.5f;
 
     [Header("Vignette")]
     public Volume globalVolume;
-    [Range(0f, 1f)] public float baseVignette = 0.15f;
-    [Range(0f, 1f)] public float maxVignette = 0.60f;
+    public float baseVignette = 0.15f;
+    public float maxVignette = 0.6f;
 
-    [Header("Anxiety Audio")]
+    [Header("Heartbeat")]
     public AudioSource heartbeatLoop;
     public float heartbeatMaxVolume = 0.9f;
-    public float heartbeatStartAt = 0.15f;
-    public float heartbeatFadeSpeed = 6f;
 
-    public AudioSource sfxSource;
-    public AudioClip sighClip;
+    [Header("Controller Haptics")]
+    public float maxVibrationAmplitude = 0.8f;
+    public float vibrationFrequency = 0.4f;
 
-    public AnimationCurve ramp = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    [Tooltip("How slowly vibration ramps in (seconds). Larger = slower start.")]
+    public float hapticsAttackSeconds = 0.6f;
+
+    [Tooltip("How quickly vibration fades out (seconds). Smaller = faster fade.")]
+    public float hapticsReleaseSeconds = 0.12f;
+
+    [Tooltip("Delay before vibration starts ramping in (seconds).")]
+    public float hapticsStartDelay = 0.25f;
+
+    [Tooltip("Nonlinear shaping. >1 = slower at the start, stronger near the end.")]
+    public float hapticsRampPower = 2.2f;
+
+    float hapticsAmpCurrent = 0f;
 
     float anxiety01 = 0f;
     float continuousTyping = 0f;
@@ -43,131 +52,133 @@ public class AnxietyTypingController : MonoBehaviour
 
     void Awake()
     {
-        if (anxiousPrompt) anxiousPrompt.SetActive(false);
-
-        if (globalVolume != null && globalVolume.profile != null)
+        if (globalVolume && globalVolume.profile)
             globalVolume.profile.TryGet(out vignette);
 
-        ApplyVignette(0f);
+        ResetAnxiety();
     }
 
     void OnEnable()
     {
-        if (holdUI != null)
-        {
-            holdUI.TypingStarted += OnTypingStarted;
-            holdUI.TypingStopped += OnTypingStopped;
-        }
+        holdUI.TypingStarted += OnTypingStarted;
+        holdUI.TypingStopped += OnTypingStopped;
     }
 
     void OnDisable()
     {
-        if (holdUI != null)
-        {
-            holdUI.TypingStarted -= OnTypingStarted;
-            holdUI.TypingStopped -= OnTypingStopped;
-        }
+        holdUI.TypingStarted -= OnTypingStarted;
+        holdUI.TypingStopped -= OnTypingStopped;
+        ResetAnxiety();
+    }
+
+    public void ResetAnxiety()
+    {
+        StopAllCoroutines();
+
+        anxiety01 = 0f;
+        continuousTyping = 0f;
+        isTyping = false;
+        inForcedBreak = false;
+        hapticsAmpCurrent = 0f;
+
+        anxiousPrompt?.SetActive(false);
+        heartbeatLoop?.Stop();
+        SetVibration(0f);
+
+        ApplyVignette(0f);
     }
 
     void Update()
     {
-        if (isTyping && !inForcedBreak)
+        if (inForcedBreak)
+        {
+            anxiety01 = 1f;
+            SetVibration(1f);
+            UpdateHeartbeat(1f);
+            ApplyVignette(1f);
+            return;
+        }
+
+        if (isTyping)
         {
             continuousTyping += Time.deltaTime;
-
             anxiety01 = Mathf.Clamp01(continuousTyping / maxContinuousTypingSeconds);
 
             if (continuousTyping >= maxContinuousTypingSeconds)
-            {
                 StartCoroutine(ForcedBreak());
-            }
         }
         else
         {
-            if (continuousTyping > 0f)
-            {
-                continuousTyping = Mathf.Max(0f, continuousTyping - (Time.deltaTime * (maxContinuousTypingSeconds / Mathf.Max(0.1f, graceToClearSeconds))));
-                anxiety01 = Mathf.Clamp01(continuousTyping / maxContinuousTypingSeconds);
-            }
+            continuousTyping = Mathf.Max(0f, continuousTyping - Time.deltaTime);
+            anxiety01 = Mathf.Clamp01(continuousTyping / maxContinuousTypingSeconds);
         }
 
+        SetVibration(anxiety01);
         UpdateHeartbeat(anxiety01);
-
         ApplyVignette(anxiety01);
     }
 
-    void UpdateHeartbeat(float a01)
-    {
-        if (!heartbeatLoop) return;
-
-        float targetVol = 0f;
-
-        if (a01 >= heartbeatStartAt && !inForcedBreak)
-        {
-            float t = Mathf.InverseLerp(heartbeatStartAt, 1f, a01);
-            targetVol = t * heartbeatMaxVolume;
-        }
-
-        if (targetVol > 0.001f && !heartbeatLoop.isPlaying)
-            heartbeatLoop.Play();
-
-        heartbeatLoop.volume = Mathf.Lerp(
-            heartbeatLoop.volume,
-            targetVol,
-            Time.deltaTime * heartbeatFadeSpeed
-        );
-
-        if (heartbeatLoop.isPlaying && heartbeatLoop.volume < 0.001f && targetVol <= 0.001f)
-            heartbeatLoop.Stop();
-    }
-
-    void OnTypingStarted()
-    {
-        if (inForcedBreak) return;
-
-        isTyping = true;
-        if (anxiousPrompt) anxiousPrompt.SetActive(false);
-    }
-
-    void OnTypingStopped()
-    {
-        isTyping = false;
-    }
+    void OnTypingStarted() => isTyping = true;
+    void OnTypingStopped() => isTyping = false;
 
     IEnumerator ForcedBreak()
     {
         if (inForcedBreak) yield break;
         inForcedBreak = true;
 
-        if (anxiousPrompt) anxiousPrompt.SetActive(true);
+        anxiousPrompt?.SetActive(true);
+        holdUI.SetHoldPromptSuppressed(true);
+        holdUI.ForceBreak();
 
-        if (sfxSource && sighClip)
-            sfxSource.PlayOneShot(sighClip);
-
-        if (holdUI) holdUI.ForceBreak();
+        yield return new WaitUntil(() => !holdUI.IsReleaseRequired);
 
         interactionToggle?.DisableInteractions();
-
         yield return new WaitForSeconds(forcedBreakSeconds);
-
         interactionToggle?.EnableInteractions();
 
-        if (anxiousPrompt) anxiousPrompt.SetActive(false);
+        anxiousPrompt?.SetActive(false);
+        holdUI.SetHoldPromptSuppressed(false);
 
-        continuousTyping = Mathf.Max(0f, continuousTyping - maxContinuousTypingSeconds * 0.6f);
-        anxiety01 = Mathf.Clamp01(continuousTyping / maxContinuousTypingSeconds);
-
-        isTyping = false;
+        continuousTyping *= 0.4f;
         inForcedBreak = false;
     }
 
-    void ApplyVignette(float t01)
+    void UpdateHeartbeat(float a01)
+    {
+        if (!heartbeatLoop) return;
+
+        heartbeatLoop.volume = Mathf.Lerp(
+            heartbeatLoop.volume,
+            a01 * heartbeatMaxVolume,
+            Time.deltaTime * 6f
+        );
+
+        if (!heartbeatLoop.isPlaying && a01 > 0.05f)
+            heartbeatLoop.Play();
+        else if (heartbeatLoop.isPlaying && a01 < 0.01f)
+            heartbeatLoop.Stop();
+    }
+
+    void ApplyVignette(float a01)
     {
         if (vignette == null) return;
+        vignette.intensity.Override(Mathf.Lerp(baseVignette, maxVignette, a01));
+    }
 
-        float shaped = ramp != null ? ramp.Evaluate(t01) : t01;
-        float intensity = Mathf.Lerp(baseVignette, maxVignette, shaped);
+    void SetVibration(float a01)
+    {
+        float delayed01 = Mathf.Clamp01((a01 - hapticsStartDelay) / Mathf.Max(0.0001f, (1f - hapticsStartDelay)));
 
-        vignette.intensity.Override(intensity);
+        float shaped = Mathf.Pow(delayed01, hapticsRampPower);
+
+        float targetAmp = shaped * maxVibrationAmplitude;
+
+        float tau = (targetAmp > hapticsAmpCurrent) ? hapticsAttackSeconds : hapticsReleaseSeconds;
+        float lerpT = 1f - Mathf.Exp(-Time.deltaTime / Mathf.Max(0.0001f, tau));
+
+        hapticsAmpCurrent = Mathf.Lerp(hapticsAmpCurrent, targetAmp, lerpT);
+
+        OVRInput.SetControllerVibration(vibrationFrequency, hapticsAmpCurrent, OVRInput.Controller.LTouch);
+        OVRInput.SetControllerVibration(vibrationFrequency, hapticsAmpCurrent, OVRInput.Controller.RTouch);
     }
 }
