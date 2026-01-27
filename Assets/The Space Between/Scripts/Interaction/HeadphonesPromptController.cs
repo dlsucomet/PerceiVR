@@ -6,6 +6,7 @@ public class HeadphonesPromptController : MonoBehaviour
     public GameObject promptText;
     public Behaviour grabInteractable;
     public InteractionToggle interactionToggle;
+    public InteractableGlow headphonesGlow;
 
     public void StartHeadphonesPrompt()
     {
@@ -22,5 +23,11 @@ public class HeadphonesPromptController : MonoBehaviour
 
         if (promptText)
             promptText.SetActive(true);
+
+        if (headphonesGlow)
+        {
+            Debug.Log("HeadphonesPromptController: enabling glow");
+            headphonesGlow.EnableGlow();
+        }
     }
 }
