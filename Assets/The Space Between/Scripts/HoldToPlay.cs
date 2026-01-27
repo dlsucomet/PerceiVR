@@ -71,6 +71,10 @@ public class HoldToPlay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         holding = false;
         requireRelease = false;
 
+        useSegmentRange = false;
+        segmentStart = 0.0;
+        segmentEnd = 0.0;
+
         if (holdPrompt)
             holdPrompt.SetActive(!suppressHoldPrompt);
         if (progressRing)
@@ -106,6 +110,10 @@ public class HoldToPlay : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         armed = false;
         holding = false;
         requireRelease = false;
+
+        useSegmentRange = false;
+        segmentStart = 0.0;
+        segmentEnd = 0.0;
 
         if (videoPlayer) videoPlayer.Pause();
         if (typingAudio) typingAudio.Stop();

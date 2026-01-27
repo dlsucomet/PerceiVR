@@ -25,6 +25,12 @@ public class AnxietyTypingController : MonoBehaviour
     public AudioSource heartbeatLoop;
     public float heartbeatMaxVolume = 0.9f;
 
+    [Header("Breathing / SFX")]
+    public AudioSource breathingSfxSource;
+    public AudioClip breathingClip;
+    [Range(0f, 1f)] public float breathingVolume = 1f;
+    public bool restartBreathingIfAlreadyPlaying = true;
+
     [Header("Controller Haptics")]
     public float maxVibrationAmplitude = 0.8f;
     public float vibrationFrequency = 0.4f;
@@ -60,14 +66,20 @@ public class AnxietyTypingController : MonoBehaviour
 
     void OnEnable()
     {
-        holdUI.TypingStarted += OnTypingStarted;
-        holdUI.TypingStopped += OnTypingStopped;
+        if (holdUI != null)
+        {
+            holdUI.TypingStarted += OnTypingStarted;
+            holdUI.TypingStopped += OnTypingStopped;
+        }
     }
 
     void OnDisable()
     {
-        holdUI.TypingStarted -= OnTypingStarted;
-        holdUI.TypingStopped -= OnTypingStopped;
+        if (holdUI != null)
+        {
+            holdUI.TypingStarted -= OnTypingStarted;
+            holdUI.TypingStopped -= OnTypingStopped;
+        }
         ResetAnxiety();
     }
 
@@ -91,13 +103,7 @@ public class AnxietyTypingController : MonoBehaviour
     void Update()
     {
         if (inForcedBreak)
-        {
-            anxiety01 = 1f;
-            SetVibration(1f);
-            UpdateHeartbeat(1f);
-            ApplyVignette(1f);
             return;
-        }
 
         if (isTyping)
         {
@@ -127,19 +133,51 @@ public class AnxietyTypingController : MonoBehaviour
         inForcedBreak = true;
 
         anxiousPrompt?.SetActive(true);
+
+        if (breathingSfxSource && breathingClip)
+        {
+            if (restartBreathingIfAlreadyPlaying)
+                breathingSfxSource.Stop();
+
+            breathingSfxSource.PlayOneShot(breathingClip, breathingVolume);
+        }
+
         holdUI.SetHoldPromptSuppressed(true);
         holdUI.ForceBreak();
 
         yield return new WaitUntil(() => !holdUI.IsReleaseRequired);
 
         interactionToggle?.DisableInteractions();
-        yield return new WaitForSeconds(forcedBreakSeconds);
+
+        float duration = Mathf.Max(0.01f, forcedBreakSeconds);
+
+        float startA = 1f;
+
+        float endA = 0.4f;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.Clamp01(t / duration);
+
+            float a = Mathf.Lerp(startA, endA, k);
+
+            SetVibration(a);
+            UpdateHeartbeat(a);
+            ApplyVignette(a);
+
+            yield return null;
+        }
+
         interactionToggle?.EnableInteractions();
 
         anxiousPrompt?.SetActive(false);
         holdUI.SetHoldPromptSuppressed(false);
 
-        continuousTyping *= 0.4f;
+        continuousTyping = endA * maxContinuousTypingSeconds;
+        anxiety01 = Mathf.Clamp01(continuousTyping / maxContinuousTypingSeconds);
+
         inForcedBreak = false;
     }
 

@@ -18,6 +18,11 @@ public class TypingManager : MonoBehaviour
     public double segment1End = 8.0;
 
     public double segment2Start = 8.0;
+
+    [Tooltip("If true, segment 2 ends when the video ENDS (recommended). If false, it ends at segment2End.")]
+    public bool segment2EndsAtVideoEnd = true;
+
+    [Tooltip("Used only if segment2EndsAtVideoEnd = false.")]
     public double segment2End = 18.0;
 
     [Tooltip("Pause between segment 1 and 2 (real-time seconds).")]
@@ -28,7 +33,7 @@ public class TypingManager : MonoBehaviour
 
     bool segmentActive = false;
     double activeEndTime = -1.0;
-    bool useSegmentProgressUI = false;
+    bool finishOnVideoEnd = false;
 
     Coroutine twoSegmentRoutine;
 
@@ -39,8 +44,18 @@ public class TypingManager : MonoBehaviour
         videoPlayer.clip = typingClip;
         videoPlayer.playOnAwake = false;
 
+        videoPlayer.isLooping = false;
+
+        videoPlayer.loopPointReached += OnVideoEnded;
+
         videoPlayer.Prepare();
         videoPlayer.prepareCompleted += OnPrepared;
+    }
+
+    void OnDestroy()
+    {
+        if (videoPlayer != null)
+            videoPlayer.loopPointReached -= OnVideoEnded;
     }
 
     void OnPrepared(VideoPlayer vp)
@@ -53,10 +68,39 @@ public class TypingManager : MonoBehaviour
     {
         if (!segmentActive || videoPlayer == null) return;
 
-        if (activeEndTime > 0 && videoPlayer.time >= activeEndTime - 0.0001)
+        if (!finishOnVideoEnd && activeEndTime > 0 && videoPlayer.time >= activeEndTime - 0.0001)
         {
             FinishCurrentSegment();
+            return;
         }
+
+        if (finishOnVideoEnd)
+        {
+            if (videoPlayer.frameCount > 0)
+            {
+                if (videoPlayer.frame >= (long)videoPlayer.frameCount - 1)
+                {
+                    FinishCurrentSegment();
+                    return;
+                }
+            }
+            else if (videoPlayer.length > 0.0001)
+            {
+                if (videoPlayer.time >= videoPlayer.length - 0.05)
+                {
+                    FinishCurrentSegment();
+                    return;
+                }
+            }
+        }
+    }
+
+    void OnVideoEnded(VideoPlayer vp)
+    {
+        if (!segmentActive) return;
+        if (!finishOnVideoEnd) return;
+
+        FinishCurrentSegment();
     }
 
     public void StartTypingBeat()
@@ -73,13 +117,14 @@ public class TypingManager : MonoBehaviour
         keyboardGlow?.EnableGlow();
 
         videoPlayer.clip = typingClip;
+        videoPlayer.isLooping = false;
         videoPlayer.time = 0;
         videoPlayer.Play();
         videoPlayer.Pause();
 
         segmentActive = true;
-        activeEndTime = typingClip.length;
-        useSegmentProgressUI = false;
+        finishOnVideoEnd = true;
+        activeEndTime = -1.0;
 
         holdUI.Arm(videoPlayer);
     }
@@ -97,8 +142,7 @@ public class TypingManager : MonoBehaviour
         NarrativeManager.Instance.PauseNarrative();
 
         SetAnxietyEnabled(false);
-
-        StartSegmentInternal(segment1Start, segment1End, segmentProgress: true);
+        StartSegmentInternal(segment1Start, segment1End, endOnVideoEnd: false, useSegmentProgressUI: true);
 
         yield return new WaitUntil(() => !segmentActive);
 
@@ -107,46 +151,66 @@ public class TypingManager : MonoBehaviour
 
         SetAnxietyEnabled(true);
 
-        StartSegmentInternal(segment2Start, segment2End, segmentProgress: true);
+        if (segment2EndsAtVideoEnd)
+        {
+            StartSegmentInternal(segment2Start, endTime: -1.0, endOnVideoEnd: true, useSegmentProgressUI: false);
+        }
+        else
+        {
+            StartSegmentInternal(segment2Start, segment2End, endOnVideoEnd: false, useSegmentProgressUI: true);
+        }
 
         yield return new WaitUntil(() => !segmentActive);
+
+        SetAnxietyEnabled(false);
 
         NarrativeManager.Instance.ResumeNarrative();
         twoSegmentRoutine = null;
     }
 
-    public void StartTypingSegment1_Assignment()
-    {
-        StopAnyTwoSegmentRoutine();
-        NarrativeManager.Instance.PauseNarrative();
-        SetAnxietyEnabled(false);
-        StartSegmentInternal(segment1Start, segment1End, segmentProgress: true);
-    }
+    //public void StartTypingSegment1_Assignment()
+    //{
+    //    StopAnyTwoSegmentRoutine();
+    //    NarrativeManager.Instance.PauseNarrative();
+    //    SetAnxietyEnabled(false);
+    //    StartSegmentInternal(segment1Start, segment1End, endOnVideoEnd: false, useSegmentProgressUI: true);
+    //}
 
-    public void StartTypingSegment2_Email()
-    {
-        StopAnyTwoSegmentRoutine();
-        NarrativeManager.Instance.PauseNarrative();
-        SetAnxietyEnabled(true);
-        StartSegmentInternal(segment2Start, segment2End, segmentProgress: true);
-    }
+    //public void StartTypingSegment2_Email()
+    //{
+    //    StopAnyTwoSegmentRoutine();
+    //    NarrativeManager.Instance.PauseNarrative();
+    //    SetAnxietyEnabled(true);
 
-    void StartSegmentInternal(double startTime, double endTime, bool segmentProgress)
+    //    if (segment2EndsAtVideoEnd)
+    //        StartSegmentInternal(segment2Start, endTime: -1.0, endOnVideoEnd: true, useSegmentProgressUI: false);
+    //    else
+    //        StartSegmentInternal(segment2Start, segment2End, endOnVideoEnd: false, useSegmentProgressUI: true);
+    //}
+
+    void StartSegmentInternal(double startTime, double endTime, bool endOnVideoEnd, bool useSegmentProgressUI)
     {
         interactionToggle?.EnableInteractions();
         keyboardGlow?.EnableGlow();
 
+        videoPlayer.isLooping = false;
         videoPlayer.clip = typingClip;
-        videoPlayer.time = startTime;
+
+        double safeStart = Mathf.Max(0f, (float)startTime);
+        videoPlayer.time = safeStart;
 
         videoPlayer.Play();
         videoPlayer.Pause();
 
         segmentActive = true;
-        activeEndTime = endTime;
-        useSegmentProgressUI = segmentProgress;
+        finishOnVideoEnd = endOnVideoEnd;
 
-        if (segmentProgress)
+        if (!endOnVideoEnd)
+            activeEndTime = endTime;
+        else
+            activeEndTime = -1.0;
+
+        if (useSegmentProgressUI && !endOnVideoEnd)
             holdUI.Arm(videoPlayer, startTime, endTime);
         else
             holdUI.Arm(videoPlayer);
@@ -156,16 +220,22 @@ public class TypingManager : MonoBehaviour
     {
         if (!segmentActive) return;
 
+        SetAnxietyEnabled(false);
+
         segmentActive = false;
+        finishOnVideoEnd = false;
+        activeEndTime = -1.0;
 
-        videoPlayer.Pause();
+        if (videoPlayer != null)
+            videoPlayer.Pause();
 
-        // Hide prompt/progress and stop interaction
-        holdUI.Disarm();
+        if (holdUI != null)
+        {
+            holdUI.Disarm();
+            if (holdUI.typingAudio) holdUI.typingAudio.Stop();
+        }
+
         keyboardGlow?.DisableGlow();
-
-        if (holdUI.typingAudio) holdUI.typingAudio.Stop();
-
         interactionToggle?.DisableInteractions();
     }
 
@@ -173,17 +243,8 @@ public class TypingManager : MonoBehaviour
     {
         if (anxietyController == null) return;
 
-        if (enabled)
-        {
-            anxietyController.enabled = true;
-            anxietyController.ResetAnxiety();
-        }
-        else
-        {
-
-            anxietyController.ResetAnxiety();
-            anxietyController.enabled = false;
-        }
+        anxietyController.ResetAnxiety();
+        anxietyController.enabled = enabled;
     }
 
     void StopAnyTwoSegmentRoutine()
