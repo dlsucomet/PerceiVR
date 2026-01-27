@@ -32,6 +32,9 @@ public class TapFingers : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [Tooltip("High-frequency motor (0..1). Often feels 'buzzier'.")]
     [Range(0f, 1f)] public float vibrationFrequency = 0.7f;
 
+    [Header("Requirements (Optional)")]
+    public GrabState requiredGrab;
+
     public event Action HoldStarted;
     public event Action HoldStopped;
     public event Action HoldCompleted;
@@ -73,6 +76,9 @@ public class TapFingers : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     void Update()
     {
         if (!armed || !holding || holdDurationSeconds <= 0f)
+            return;
+
+        if (requiredGrab != null && !requiredGrab.IsGrabbed)
             return;
 
         float dt = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
