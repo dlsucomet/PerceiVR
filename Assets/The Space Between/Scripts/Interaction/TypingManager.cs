@@ -35,6 +35,8 @@ public class TypingManager : MonoBehaviour
     double activeEndTime = -1.0;
     bool finishOnVideoEnd = false;
 
+    private bool resumeNarrativeOnFinish = false;
+
     Coroutine twoSegmentRoutine;
 
     void Start()
@@ -114,6 +116,8 @@ public class TypingManager : MonoBehaviour
 
         NarrativeManager.Instance.PauseNarrative();
 
+        resumeNarrativeOnFinish = true;
+
         keyboardGlow?.EnableGlow();
 
         videoPlayer.clip = typingClip;
@@ -139,6 +143,7 @@ public class TypingManager : MonoBehaviour
 
     IEnumerator TwoSegmentFlow()
     {
+        resumeNarrativeOnFinish = false;
         NarrativeManager.Instance.PauseNarrative();
 
         SetAnxietyEnabled(false);
@@ -237,6 +242,12 @@ public class TypingManager : MonoBehaviour
 
         keyboardGlow?.DisableGlow();
         interactionToggle?.DisableInteractions();
+
+        if (resumeNarrativeOnFinish && NarrativeManager.Instance != null)
+        {
+            resumeNarrativeOnFinish = false;
+            NarrativeManager.Instance.ResumeNarrative();
+        }
     }
 
     void SetAnxietyEnabled(bool enabled)
