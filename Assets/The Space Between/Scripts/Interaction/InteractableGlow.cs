@@ -2,43 +2,70 @@ using UnityEngine;
 
 public class InteractableGlow : MonoBehaviour
 {
-    [Header("Glow Settings")]
-    public Color glowColor = Color.cyan;
-    public float glowIntensity = 2f;
+    [Header("Renderers")]
+    [Tooltip("If empty, auto-finds all Renderers in children.")]
+    public Renderer[] targetRenderers;
 
-    Renderer[] renderers;
-    Color[] originalEmission;
+    [Header("Emission")]
+    public Color emissionColor = Color.white;
+    [Range(0f, 10f)] public float maxIntensity = 2.0f;
+    public bool pulse = true;
+    public float pulseSpeed = 2.0f;
+
+    MaterialPropertyBlock mpb;
+    bool glowOn = false;
+
+    static readonly int EmissionColorID = Shader.PropertyToID("_EmissionColor");
 
     void Awake()
     {
-        renderers = GetComponentsInChildren<Renderer>();
-        originalEmission = new Color[renderers.Length];
+        if (targetRenderers == null || targetRenderers.Length == 0)
+            targetRenderers = GetComponentsInChildren<Renderer>(true);
 
-        for (int i = 0; i < renderers.Length; i++)
+        mpb = new MaterialPropertyBlock();
+        SetEmission(0f);
+    }
+
+    void Update()
+    {
+        if (!glowOn) return;
+
+        float intensity = maxIntensity;
+        if (pulse)
         {
-            if (renderers[i].material.HasProperty("_EmissionColor"))
-                originalEmission[i] = renderers[i].material.GetColor("_EmissionColor");
+            float p = (Mathf.Sin(Time.time * pulseSpeed) + 1f) * 0.5f;
+            intensity = Mathf.Lerp(maxIntensity * 0.4f, maxIntensity, p);
         }
+
+        SetEmission(intensity);
     }
 
     public void EnableGlow()
     {
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            if (!renderers[i].material.HasProperty("_EmissionColor")) continue;
-
-            renderers[i].material.EnableKeyword("_EMISSION");
-            renderers[i].material.SetColor("_EmissionColor", glowColor * glowIntensity);
-        }
+        Debug.Log("InteractableGlow: EnableGlow");
+        glowOn = true;
     }
 
     public void DisableGlow()
     {
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            if (!renderers[i].material.HasProperty("_EmissionColor")) continue;
+        glowOn = false;
+        SetEmission(0f);
+    }
 
-            renderers[i].material.SetColor("_EmissionColor", originalEmission[i]);
+    void SetEmission(float intensity)
+    {
+        if (targetRenderers == null) return;
+
+        Color final = emissionColor * intensity;
+
+        for (int i = 0; i < targetRenderers.Length; i++)
+        {
+            var r = targetRenderers[i];
+            if (r == null) continue;
+
+            r.GetPropertyBlock(mpb);
+            mpb.SetColor(EmissionColorID, final);
+            r.SetPropertyBlock(mpb);
         }
     }
 }
