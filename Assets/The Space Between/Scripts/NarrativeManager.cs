@@ -13,6 +13,16 @@ public class NarrativeManager : MonoBehaviour
     [Header("Input Settings")]
     public InputActionReference resumeAction;
 
+    public enum ResumeMode
+    {
+        ButtonOnly,
+        InteractionOnly,
+        Both
+    }
+
+    [Header("Resume Control")]
+    public ResumeMode resumeMode = ResumeMode.Both;
+
     [Header("Haptic Settings")]
     [Range(0f, 1f)] public float vibrationIntensity = 0.5f;
     public float vibrationDuration = 0.2f;
@@ -33,12 +43,18 @@ public class NarrativeManager : MonoBehaviour
     private void OnEnable()
     {
         if (resumeAction != null) resumeAction.action.Enable();
-        
+
         if (spokenNextIndicator != null) spokenNextIndicator.SetActive(false);
         if (thoughtsNextIndicator != null) thoughtsNextIndicator.SetActive(false);
     }
 
     public bool IsWaiting() => isWaiting;
+
+    public void SetResumeModeInteractionOnly() => resumeMode = ResumeMode.InteractionOnly;
+
+    public void SetResumeModeBoth() => resumeMode = ResumeMode.Both;
+
+    public void SetResumeModeButtonOnly() => resumeMode = ResumeMode.ButtonOnly;
 
     public void PauseNarrative()
     {
@@ -59,19 +75,21 @@ public class NarrativeManager : MonoBehaviour
 
     private void Update()
     {
-        if (isWaiting)
-        {
+        if (!isWaiting) return;
+
+        if (currentDirector != null)
             currentDirector.time = pauseTime;
-            if (resumeAction != null && resumeAction.action.WasPressedThisFrame())
-            {
-                ResumeNarrative();
-            }
+
+        bool allowButtonResume = (resumeMode == ResumeMode.ButtonOnly || resumeMode == ResumeMode.Both);
+
+        if (allowButtonResume && resumeAction != null && resumeAction.action != null && resumeAction.action.WasPressedThisFrame())
+        {
+            ResumeNarrative();
         }
     }
 
     public void ResumeNarrative()
     {
-
         isWaiting = false;
 
         // Hide Spoken UI
@@ -83,7 +101,7 @@ public class NarrativeManager : MonoBehaviour
         if (thoughtsNextIndicator != null) thoughtsNextIndicator.SetActive(false);
 
         if (currentDirector != null) currentDirector.Play();
-        
+
         Debug.Log("Narrative Resumed.");
     }
 
@@ -96,7 +114,7 @@ public class NarrativeManager : MonoBehaviour
     private void VibrateController(XRNode node)
     {
         UnityEngine.XR.InputDevice device = InputDevices.GetDeviceAtXRNode(node);
-        
+
         if (device.isValid)
         {
             HapticCapabilities capabilities;
