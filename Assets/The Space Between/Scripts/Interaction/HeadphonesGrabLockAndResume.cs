@@ -11,6 +11,10 @@ public class HeadphonesGrabLockAndResume : MonoBehaviour
     public Transform leftHandAnchor;
     public Transform rightHandAnchor;
 
+    [Header("Hold Points (recommended)")]
+    public Transform leftHoldPoint;
+    public Transform rightHoldPoint;
+
     [Header("Snap Settings")]
     [Tooltip("If true, snap to the anchor (local pos/rot = 0). If false, keep current offset.")]
     public bool snapToAnchor = true;
@@ -44,7 +48,6 @@ public class HeadphonesGrabLockAndResume : MonoBehaviour
         if (locked) return;
         if (grabbable == null) return;
 
-        // Reliable "is being grabbed" check for Oculus Interaction
         if (grabbable.SelectingPointsCount > 0)
         {
             LockToNearestHandAndResume();
@@ -55,7 +58,8 @@ public class HeadphonesGrabLockAndResume : MonoBehaviour
     {
         locked = true;
 
-        Transform target = ChooseNearestHand();
+        Transform target = ChooseNearestHoldPoint();
+
         if (target == null)
         {
             Debug.LogError("[HeadphonesGrabLockAndResume] Hand anchors not assigned.");
@@ -63,7 +67,6 @@ public class HeadphonesGrabLockAndResume : MonoBehaviour
             return;
         }
 
-        // Parent to hand so it stays attached even after user releases the controller button
         transform.SetParent(target, worldPositionStays: !snapToAnchor);
 
         if (snapToAnchor)
@@ -72,7 +75,6 @@ public class HeadphonesGrabLockAndResume : MonoBehaviour
             transform.localRotation = Quaternion.identity;
         }
 
-        // Freeze physics
         if (rb != null)
         {
 #if UNITY_6000_0_OR_NEWER
@@ -85,33 +87,29 @@ public class HeadphonesGrabLockAndResume : MonoBehaviour
             rb.useGravity = false;
         }
 
-        // Hide prompt
         if (promptRoot) promptRoot.SetActive(false);
 
-        // Disable grab/transform scripts so Oculus doesn't "unparent" it on release
         if (disableAfterLock != null)
         {
             foreach (var b in disableAfterLock)
                 if (b) b.enabled = false;
         }
 
-        // Optionally disable other interactions once we've completed this one
         interactionToggle?.DisableInteractions();
 
-        // Resume timeline and re-enable BOTH resume paths
         if (resumeDelay > 0f) Invoke(nameof(ResumeNarrativeInternal), resumeDelay);
         else ResumeNarrativeInternal();
     }
 
-    Transform ChooseNearestHand()
+    Transform ChooseNearestHoldPoint()
     {
-        if (leftHandAnchor == null && rightHandAnchor == null) return null;
-        if (leftHandAnchor != null && rightHandAnchor == null) return leftHandAnchor;
-        if (rightHandAnchor != null && leftHandAnchor == null) return rightHandAnchor;
+        if (leftHoldPoint == null && rightHoldPoint == null) return null;
+        if (leftHoldPoint != null && rightHoldPoint == null) return leftHoldPoint;
+        if (rightHoldPoint != null && leftHoldPoint == null) return rightHoldPoint;
 
-        float dl = Vector3.Distance(transform.position, leftHandAnchor.position);
-        float dr = Vector3.Distance(transform.position, rightHandAnchor.position);
-        return (dl <= dr) ? leftHandAnchor : rightHandAnchor;
+        float dl = Vector3.Distance(transform.position, leftHoldPoint.position);
+        float dr = Vector3.Distance(transform.position, rightHoldPoint.position);
+        return (dl <= dr) ? leftHoldPoint : rightHoldPoint;
     }
 
     void ResumeNarrativeInternal()
