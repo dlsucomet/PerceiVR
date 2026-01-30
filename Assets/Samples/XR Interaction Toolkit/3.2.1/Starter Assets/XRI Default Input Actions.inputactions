@@ -1309,6 +1309,17 @@
                 },
                 {
                     "name": "",
+                    "id": "82576546-a4f4-44a7-8190-a38e90212726",
+                    "path": "<QuestTouchPlusController>/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrimaryButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "86243b8e-9942-48f7-a2c3-537c19ef816c",
                     "path": "<Keyboard>/a",
                     "interactions": "",
