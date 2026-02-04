@@ -14,6 +14,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject buttonCanvas;
     public GameObject creditsCanvas;
     public GameObject playerInputCanvas;
+    public GameObject genderSelectionCanvas;
     public GameObject notesCanvas;
 
     [Header("Player Input Field")]
@@ -32,8 +33,8 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
-
         playerInputCanvas.SetActive(false);
+        genderSelectionCanvas.SetActive(false);
         if (creditsCanvas != null) creditsCanvas.SetActive(false);
         if (notesCanvas != null) notesCanvas.SetActive(false);
     }
@@ -44,7 +45,7 @@ public class MainMenuManager : MonoBehaviour
         playerInputCanvas.SetActive(true);
     }
 
-    public void OnConfirmButtonClicked()
+    public void OnConfirmNameButtonClicked()
     {
         string playerName = nameInputField.text.Trim();
 
@@ -54,8 +55,23 @@ public class MainMenuManager : MonoBehaviour
             return;
         }
 
+        nameInputField.DeactivateInputField();
+
         PlayerPrefs.SetString("PlayerName", playerName);
         PlayerPrefs.Save();
+
+        playerInputCanvas.SetActive(false);
+        genderSelectionCanvas.SetActive(true);
+    }
+
+    public void OnGenderSelected(string gender)
+    {
+        PlayerPrefs.SetString("PlayerGender", gender);
+        PlayerPrefs.Save();
+
+        Debug.Log($"Saved Player: {PlayerPrefs.GetString("PlayerName")} as {gender}");
+
+        genderSelectionCanvas.SetActive(false);
 
         if (fadeManager != null)
         {
@@ -75,7 +91,6 @@ public class MainMenuManager : MonoBehaviour
 
     public void QuitExperience()
     {
-        Debug.Log("Quitting application...");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -104,11 +119,9 @@ public class MainMenuManager : MonoBehaviour
         }
 
         string folderPath = Path.Combine(Application.persistentDataPath, "UserNotes");
-
         if (Directory.Exists(folderPath))
         {
             string[] noteFiles = Directory.GetFiles(folderPath, "*.txt");
-
             if (noteFiles.Length == 0)
             {
                 InstantiateNote(new NoteData { playerName = "System", playerMessage = "You haven't written any notes yet." });
@@ -123,18 +136,11 @@ public class MainMenuManager : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            InstantiateNote(new NoteData { playerName = "System", playerMessage = "Play the game to write your first note!" });
-        }
     }
-
-
 
     private void InstantiateNote(NoteData data)
     {
         GameObject noteObject = Instantiate(noteEntryPrefab, notesContentArea);
-
         TextMeshProUGUI playerNameText = noteObject.transform.Find("PlayerNameText")?.GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI messageText = noteObject.transform.Find("MessageText")?.GetComponent<TextMeshProUGUI>();
 
@@ -142,10 +148,6 @@ public class MainMenuManager : MonoBehaviour
         {
             playerNameText.text = data.playerName;
             messageText.text = data.playerMessage;
-        }
-        else
-        {
-            Debug.LogError("Note Entry Prefab is missing a child named 'PlayerNameText' or 'MessageText' with a TextMeshProUGUI component!");
         }
     }
 
