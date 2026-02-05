@@ -192,7 +192,7 @@ MonoBehaviour:
     m_Start: 26.516666666666666
     m_ClipIn: 3.116666666666667
     m_Asset: {fileID: 7443300954258809592}
-    m_Duration: 1.5592517006802717
+    m_Duration: 2.0166666666666693
     m_TimeScale: 1
     m_ParentTrack: {fileID: -8317419184583337339}
     m_EaseInDuration: 0
@@ -4089,7 +4089,7 @@ MonoBehaviour:
   m_Version: 3
   m_AnimClip: {fileID: 0}
   m_Locked: 0
-  m_Muted: 0
+  m_Muted: 1
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
   m_Parent: {fileID: 2931886821822959262}
