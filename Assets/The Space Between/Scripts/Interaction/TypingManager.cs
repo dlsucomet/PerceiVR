@@ -114,6 +114,7 @@ public class TypingManager : MonoBehaviour
 
         SetAnxietyEnabled(false);
 
+        NarrativeManager.Instance.SetResumeModeInteractionOnly();
         NarrativeManager.Instance.PauseNarrative();
 
         resumeNarrativeOnFinish = true;
@@ -173,26 +174,6 @@ public class TypingManager : MonoBehaviour
         twoSegmentRoutine = null;
     }
 
-    //public void StartTypingSegment1_Assignment()
-    //{
-    //    StopAnyTwoSegmentRoutine();
-    //    NarrativeManager.Instance.PauseNarrative();
-    //    SetAnxietyEnabled(false);
-    //    StartSegmentInternal(segment1Start, segment1End, endOnVideoEnd: false, useSegmentProgressUI: true);
-    //}
-
-    //public void StartTypingSegment2_Email()
-    //{
-    //    StopAnyTwoSegmentRoutine();
-    //    NarrativeManager.Instance.PauseNarrative();
-    //    SetAnxietyEnabled(true);
-
-    //    if (segment2EndsAtVideoEnd)
-    //        StartSegmentInternal(segment2Start, endTime: -1.0, endOnVideoEnd: true, useSegmentProgressUI: false);
-    //    else
-    //        StartSegmentInternal(segment2Start, segment2End, endOnVideoEnd: false, useSegmentProgressUI: true);
-    //}
-
     void StartSegmentInternal(double startTime, double endTime, bool endOnVideoEnd, bool useSegmentProgressUI)
     {
         interactionToggle?.EnableInteractions();
@@ -247,6 +228,7 @@ public class TypingManager : MonoBehaviour
         {
             resumeNarrativeOnFinish = false;
             NarrativeManager.Instance.ResumeNarrative();
+            NarrativeManager.Instance.SetResumeModeButtonOnly();
         }
     }
 
