@@ -20,6 +20,9 @@ public class HallwayThoughtTrigger : MonoBehaviour
     [Header("Trigger settings")]
     public bool oneShot = true;
 
+    [Header("Canvas to hide")]
+    public GameObject walkPromptCanvas;
+
     bool fired;
     Coroutine audioRoutine;
 
@@ -42,6 +45,9 @@ public class HallwayThoughtTrigger : MonoBehaviour
             if (audioRoutine != null) StopCoroutine(audioRoutine);
             audioRoutine = StartCoroutine(PlayAudioDelayed());
         }
+
+        if (walkPromptCanvas != null && walkPromptCanvas.activeSelf)
+            walkPromptCanvas.SetActive(false);
 
         ResumeNarrative();
     }
